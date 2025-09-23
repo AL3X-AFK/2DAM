@@ -1,0 +1,11 @@
+cd al repo:    cd /d/Perfiles/am4DAM2/Desktop/2DAM 
+pull:     git pull origin main
+
+
+Datos
+(Crear bd practica cero en la base de datos)
+Connect system/system
+Create user practica0 identified by practica0;
+Grant dba to practica0;
+exit
+connect practica0/practica0
