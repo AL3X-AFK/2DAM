@@ -11,6 +11,7 @@ public class main {
 
         System.out.println(cultivo.regar(hortaliza));
         System.out.println(cultivo.regar(arbol));
+        
     }
     
 }
