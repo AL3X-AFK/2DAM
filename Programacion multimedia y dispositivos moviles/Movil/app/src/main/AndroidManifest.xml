@@ -12,7 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Test">
         <activity
-            android:name=".MainActivity"
+            android:name="app.calculator.CalculatorActivity"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name="app.controller.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
