@@ -1,0 +1,38 @@
+CREATE OR REPLACE TYPE triangulo AS OBJECT(
+	base NUMBER,
+	altura NUMBER,
+	MEMBER FUNCTION area RETURN NUMBER
+);
+/
+
+CREATE OR REPLACE TYPE BODY triangulo AS
+	MEMBER FUNCTION area RETURN NUMBER IS
+	BEGIN
+		RETURN (base*altura)/2;
+	END;
+END;
+/ 
+
+CREATE TABLE triangulos(
+Id NUMBER,
+tri triangulo);
+
+INSERT INTO triangulos VALUES (1,triangulo(5,5));
+INSERT INTO triangulos VALUES (2,triangulo(10,10));
+
+SELECT * FROM triangulos;
+
+DECLARE
+	t triangulo;
+	a NUMBER;
+BEGIN
+	FOR rec IN (SELECT tri FROM triangulos) LOOP
+	t:= rec.tri;
+	a:= rec.area;
+	DBMS_OUTPUT.PUT_LINE('El triangulo con id: '||tri.Id);
+	DBMS_OUTPUT.PUT_LINE('Con base: '||tri.base);
+	DBMS_OUTPUT.PUT_LINE('Y altura: '||tri.altura);
+	DBMS_OUTPUT.PUT_LINE('Tiene un area: '||a);
+	END LOOP;
+END;
+/
