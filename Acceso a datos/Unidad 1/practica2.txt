@@ -1,0 +1,48 @@
+CREATE OR REPLACE TYPE tipo_cubo AS OBJECT(
+	LARGO INTEGER,
+	ANCHO INTEGER,
+	ALTO INTEGER,
+	MEMBER FUNCTION superficie RETURN integer,
+	MEMBER FUNCTION  volumen RETURN integer,
+	MEMBER PROCEDURE  mostrar);
+/
+	
+CREATE OR REPLACE TYPE BODY tipo_cubo AS
+	MEMBER FUNCTION superficie RETURN integer IS
+	BEGIN
+		RETURN 2*(SELF.LARGO*SELF.ANCHO+SELF.LARGO*SELF.ALTO+SELF.ANCHO*SELF.ALTO);
+	END;
+	
+	MEMBER FUNCTION  volumen RETURN integer IS
+	BEGIN
+		RETURN SELF.LARGO*SELF.ALTO*SELF.ANCHO;
+	END;
+	
+	MEMBER PROCEDURE  mostrar IS
+	BEGIN
+		DBMS_OUTPUT.PUT_LINE('Largo: '||SELF.LARGO);
+		DBMS_OUTPUT.PUT_LINE('Ancho: '||SELF.ANCHO);
+		DBMS_OUTPUT.PUT_LINE('Alto: '||SELF.ALTO);
+		DBMS_OUTPUT.PUT_LINE('Volumen: '||SELF.volumen);
+		DBMS_OUTPUT.PUT_LINE('Superficie: '||SELF.superficie);
+	END;
+END;
+/
+	
+CREATE TABLE cubos OF tipo_cubo;
+
+
+INSERT INTO cubos VALUES (tipo_cubo(10,10,10));
+INSERT INTO cubos VALUES (tipo_cubo(3,4,5));
+
+SELECT * FROM cubos;
+	
+SELECT c.superficie(), c.volumen() FROM cubos c WHERE c.LARGO = 10;
+	
+DECLARE
+	c tipo_cubo;
+BEGIN
+	SELECT VALUE(cu) INTO c FROM cubos cu WHERE cu.LARGO = 10;
+	c.mostrar;
+END;
+/
