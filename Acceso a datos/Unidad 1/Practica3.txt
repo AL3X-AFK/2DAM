@@ -26,13 +26,14 @@ DECLARE
 	t triangulo;
 	a NUMBER;
 BEGIN
-	FOR rec IN (SELECT tri FROM triangulos) LOOP
+	FOR rec IN (SELECT Id, tri FROM triangulos) LOOP
 	t:= rec.tri;
-	a:= rec.area;
-	DBMS_OUTPUT.PUT_LINE('El triangulo con id: '||tri.Id);
-	DBMS_OUTPUT.PUT_LINE('Con base: '||tri.base);
-	DBMS_OUTPUT.PUT_LINE('Y altura: '||tri.altura);
+	a:= t.area;
+	DBMS_OUTPUT.PUT_LINE('El triangulo con id: '||rec.Id);
+	DBMS_OUTPUT.PUT_LINE('Con base: '||t.base);
+	DBMS_OUTPUT.PUT_LINE('Y altura: '||t.altura);
 	DBMS_OUTPUT.PUT_LINE('Tiene un area: '||a);
+	DBMS_OUTPUT.PUT_LINE('------------------------------');
 	END LOOP;
 END;
 /
