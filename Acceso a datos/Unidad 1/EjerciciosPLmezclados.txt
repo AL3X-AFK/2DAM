@@ -24,3 +24,239 @@ END;
 /
 
 DELETE FROM emp WHERE EMPNO=7934;
+
+
+CREATE OR REPLACE PROCEDURE ajustar_salario (p_empno IN emp.empno%TYPE) IS
+  v_count_sub NUMBER;
+  v_job emp.job%TYPE; 
+BEGIN
+
+  SELECT job INTO v_job
+  FROM emp
+  WHERE empno = p_empno;
+
+
+  IF v_job = 'PRESIDENTE' THEN
+    UPDATE emp
+    SET sal = sal + 30
+    WHERE empno = p_empno;
+
+    DBMS_OUTPUT.PUT_LINE('El PRESIDENTE recibe un aumento de 30.');
+  
+  ELSE
+
+    SELECT COUNT(*) INTO v_count_sub
+    FROM emp
+    WHERE mgr = p_empno;
+
+
+    CASE v_count_sub
+      WHEN 0 THEN
+        UPDATE emp SET sal = sal + 50 WHERE empno = p_empno;
+        DBMS_OUTPUT.PUT_LINE('Incremento: 50 (sin subordinados).');
+      WHEN 1 THEN
+        UPDATE emp SET sal = sal + 80 WHERE empno = p_empno;
+        DBMS_OUTPUT.PUT_LINE('Incremento: 80 (1 subordinado).');
+      WHEN 2 THEN
+        UPDATE emp SET sal = sal + 100 WHERE empno = p_empno;
+        DBMS_OUTPUT.PUT_LINE('Incremento: 100 (2 subordinados).');
+      ELSE
+        UPDATE emp SET sal = sal + 110 WHERE empno = p_empno;
+        DBMS_OUTPUT.PUT_LINE('Incremento: 110 (más de 2 subordinados).');
+    END CASE;
+  END IF;
+
+  COMMIT;
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    DBMS_OUTPUT.PUT_LINE('El empleado con empno ' || p_empno || ' no existe.');
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('Error: ' || SQLCODE || ' - ' || SQLERRM);
+END;
+/
+
+
+BEGIN
+DBMS_OUTPUT.PUT_LINE('HOLA MUNDO');
+END;
+/
+DECLARE
+texto VARCHAR2(15):= 'Hola Mundo';
+reverso VARCHAR2(15);
+BEGIN
+FOR i IN REVERSE 1..LENGTH(texto) LOOP
+    reverso := reverso || SUBSTR(texto, i, 1);
+  END LOOP;
+
+  DBMS_OUTPUT.PUT_LINE(reverso);
+END;
+/
+
+
+
+BEGIN
+  FOR emp_rec IN (SELECT empno, ename, mgr FROM emp ORDER BY empno) LOOP
+    DECLARE
+      v_jefe emp.ename%TYPE;
+    BEGIN
+      IF emp_rec.mgr IS NULL THEN
+        v_jefe := '---';
+      ELSE
+        SELECT ename INTO v_jefe FROM emp WHERE empno = emp_rec.mgr;
+      END IF;
+
+      DBMS_OUTPUT.PUT_LINE('Empleado: ' || emp_rec.ename || 
+                           ' | Jefe: ' || v_jefe);
+    END;
+  END LOOP;
+END;
+
+
+
+CREATE OR REPLACE PROCEDURE listar_empleados_depto(p_deptno IN NUMBER) IS
+  v_count NUMBER := 1;
+BEGIN
+  FOR emp_rec IN (SELECT ename
+                  FROM emp
+                  WHERE deptno = p_deptno
+                  ORDER BY ename) LOOP
+    DBMS_OUTPUT.PUT_LINE(v_count || '. ' || emp_rec.ename);
+    v_count := v_count + 1;
+  END LOOP;
+END;
+/
+
+CREATE OR REPLACE PROCEDURE alta_empleado(
+  p_empno   IN emp.empno%TYPE,
+  p_ename   IN emp.ename%TYPE,
+  p_job     IN emp.job%TYPE,
+  p_mgr     IN emp.mgr%TYPE,
+  p_hiredate IN emp.hiredate%TYPE,
+  p_sal     IN emp.sal%TYPE,
+  p_comm    IN emp.comm%TYPE,
+  p_deptno  IN emp.deptno%TYPE
+) IS
+BEGIN
+  -- Salario no nulo
+  IF p_sal IS NULL THEN
+    RAISE_APPLICATION_ERROR(-20001, 'Error: salario nulo.');
+  END IF;
+
+  -- Departamento existe
+  IF (SELECT COUNT(*) FROM dept WHERE deptno = p_deptno) = 0 THEN
+    RAISE_APPLICATION_ERROR(-20002, 'Error: departamento no existe.');
+  END IF;
+
+  -- Jefe existe si se pasa
+  IF p_mgr IS NOT NULL AND (SELECT COUNT(*) FROM emp WHERE empno = p_mgr) = 0 THEN
+    RAISE_APPLICATION_ERROR(-20003, 'Error: jefe no existe.');
+  END IF;
+
+  -- Número de empleado duplicado
+  IF (SELECT COUNT(*) FROM emp WHERE empno = p_empno) > 0 THEN
+    RAISE_APPLICATION_ERROR(-20004, 'Error: número de empleado duplicado.');
+  END IF;
+
+  -- Insertar empleado
+  INSERT INTO emp(empno, ename, job, mgr, hiredate, sal, comm, deptno)
+  VALUES(p_empno, p_ename, p_job, p_mgr, p_hiredate, p_sal, p_comm, p_deptno);
+
+  COMMIT;
+  DBMS_OUTPUT.PUT_LINE('Empleado ' || p_ename || ' dado de alta correctamente.');
+
+EXCEPTION
+  WHEN OTHERS THEN
+    ROLLBACK;
+    DBMS_OUTPUT.PUT_LINE('ERROR: ' || SQLCODE || ' - ' || SQLERRM);
+END;
+/
+
+
+
+CREATE OR REPLACE PROCEDURE subir_sueldo_oficio(p_job IN emp.job%TYPE) IS
+BEGIN
+  -- Actualizar salarios
+  UPDATE emp
+  SET sal = sal + ( (SELECT AVG(sal) FROM emp WHERE job = p_job) - sal ) * 0.5
+  WHERE job = p_job
+    AND sal < (SELECT AVG(sal) FROM emp WHERE job = p_job);
+
+  DBMS_OUTPUT.PUT_LINE('Salarios actualizados para el oficio: ' || p_job);
+
+  COMMIT;
+
+EXCEPTION
+  WHEN OTHERS THEN
+    ROLLBACK;
+    DBMS_OUTPUT.PUT_LINE('ERROR: ' || SQLCODE || ' - ' || SQLERRM);
+END;
+/
+
+
+
+CREATE OR REPLACE PROCEDURE incrementar_salario_depto(
+  p_deptno IN emp.deptno%TYPE,
+  p_incremento IN NUMBER
+) IS
+  v_count NUMBER := 0;  -- contador de filas afectadas
+BEGIN
+  FOR emp_rec IN (SELECT empno, sal FROM emp WHERE deptno = p_deptno) LOOP
+    -- Actualizamos salario individualmente
+    UPDATE emp
+    SET sal = sal + p_incremento
+    WHERE empno = emp_rec.empno;
+
+    v_count := v_count + 1;
+  END LOOP;
+
+  COMMIT;
+
+  DBMS_OUTPUT.PUT_LINE('Número de empleados actualizados: ' || v_count);
+
+EXCEPTION
+  WHEN OTHERS THEN
+    ROLLBACK;
+    DBMS_OUTPUT.PUT_LINE('ERROR: ' || SQLCODE || ' - ' || SQLERRM);
+END;
+/
+
+
+
+CREATE OR REPLACE PROCEDURE incrementar_salario_emp(
+  p_empno     IN emp.empno%TYPE,
+  p_incremento IN NUMBER
+) IS
+  salario_emp emp.sal%TYPE;
+
+  -- Definir excepción personalizada
+  salario_nulo EXCEPTION;
+BEGIN
+  -- 1. Obtener salario del empleado
+  SELECT sal INTO salario_emp
+  FROM emp
+  WHERE empno = p_empno;
+
+  -- 2. Si el salario es NULL, disparar excepción personalizada
+  IF salario_emp IS NULL THEN
+    RAISE salario_nulo;
+  END IF;
+
+  -- 3. Incrementar salario
+  UPDATE emp
+  SET sal = sal + p_incremento
+  WHERE empno = p_empno;
+
+  COMMIT;
+
+  DBMS_OUTPUT.PUT_LINE('Salario incrementado correctamente.');
+
+EXCEPTION
+  WHEN NO_DATA_FOUND THEN
+    DBMS_OUTPUT.PUT_LINE('ERROR: El empleado con empno ' || p_empno || ' no existe.');
+  WHEN salario_nulo THEN
+    DBMS_OUTPUT.PUT_LINE('ERROR: El empleado tiene salario nulo.');
+  WHEN OTHERS THEN
+    DBMS_OUTPUT.PUT_LINE('ERROR desconocido: ' || SQLCODE || ' - ' || SQLERRM);
+END;
+/
+
