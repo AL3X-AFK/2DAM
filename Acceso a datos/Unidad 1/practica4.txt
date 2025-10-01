@@ -1,0 +1,48 @@
+ALTER TYPE tipo_cubo ADD STATIC 
+PROCEDURE nuevoCubo(v_largo INTEGER, v_ancho INTEGER, v_alto INTEGER);
+/
+
+ALTER TYPE tipo_cubo REPLACE AS OBJECT(
+	LARGO INTEGER,
+	ANCHO INTEGER,
+	ALTO INTEGER,
+	MEMBER FUNCTION superficie RETURN integer,
+	MEMBER FUNCTION  volumen RETURN integer,
+	MEMBER PROCEDURE  mostrar,
+	STATIC PROCEDURE nuevoCubo(v_largo INTEGER, v_ancho INTEGER, v_alto INTEGER));
+/
+
+
+CREATE OR REPLACE TYPE BODY tipo_cubo AS
+	MEMBER FUNCTION superficie RETURN integer IS
+	BEGIN
+		RETURN 2*(SELF.LARGO*SELF.ANCHO+SELF.LARGO*SELF.ALTO+SELF.ANCHO*SELF.ALTO);
+	END;
+	
+	MEMBER FUNCTION  volumen RETURN integer IS
+	BEGIN
+		RETURN SELF.LARGO*SELF.ALTO*SELF.ANCHO;
+	END;
+	
+	MEMBER PROCEDURE  mostrar IS
+	BEGIN
+		DBMS_OUTPUT.PUT_LINE('Largo: '||SELF.LARGO);
+		DBMS_OUTPUT.PUT_LINE('Ancho: '||SELF.ANCHO);
+		DBMS_OUTPUT.PUT_LINE('Alto: '||SELF.ALTO);
+		DBMS_OUTPUT.PUT_LINE('Volumen: '||SELF.volumen);
+		DBMS_OUTPUT.PUT_LINE('Superficie: '||SELF.superficie);
+	END;
+	
+	STATIC PROCEDURE nuevoCubo(v_largo INTEGER, v_ancho INTEGER, v_alto INTEGER) IS
+	BEGIN
+		INSERT INTO cubos VALUES(v_largo, v_ancho, v_alto);
+	END;
+END;
+/
+
+
+BEGIN
+	tipo_cubo.nuevoCubo(1,8,1);
+	DBMS_OUTPUT.PUT_LINE('Nuevo cubo agregado');
+END;
+/

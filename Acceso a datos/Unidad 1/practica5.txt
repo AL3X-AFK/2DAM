@@ -1,0 +1,74 @@
+CREATE OR REPLACE TYPE tipo_empleado AS OBJECT(
+Rut VARCHAR2(10),
+Nombre VARCHAR2(10),
+Cargo VARCHAR2(9),
+fechaIng DATE,
+Sueldo NUMBER(9),
+Comision NUMBER(9),
+Anticipo NUMBER(9),
+MEMBER FUNCTION sueldo_liquido RETURN NUMBER,
+MEMBER PROCEDURE aumento_sueldo(Aumento NUMBER)
+);
+/
+
+
+CREATE OR REPLACE TYPE BODY tipo_empleado AS 
+	MEMBER FUNCTION sueldo_liquido RETURN NUMBER IS
+	BEGIN
+		RETURN (Sueldo + Comision) - Anticipo;
+	END;
+	MEMBER PROCEDURE aumento_sueldo(Aumento NUMBER) IS
+	BEGIN
+		Sueldo := Sueldo + Aumento;
+	END;
+END;
+/
+
+ALTER TYPE tipo_empleado REPLACE AS OBJECT(
+Rut VARCHAR2(10),
+Nombre VARCHAR2(10),
+Cargo VARCHAR2(9),
+fechaIng DATE,
+Sueldo NUMBER(9),
+Comision NUMBER(9),
+Anticipo NUMBER(9),
+MEMBER FUNCTION sueldo_liquido RETURN NUMBER,
+MEMBER PROCEDURE aumento_sueldo(Aumento NUMBER),
+MEMBER PROCEDURE setAnticipo (Anticipo NUMBER)
+);
+/
+
+CREATE OR REPLACE TYPE BODY tipo_empleado AS 
+	MEMBER FUNCTION sueldo_liquido RETURN NUMBER IS
+	BEGIN
+		RETURN (Sueldo + Comision) - Anticipo;
+	END;
+	MEMBER PROCEDURE aumento_sueldo(Aumento NUMBER) IS
+	BEGIN
+		Sueldo := Sueldo + Aumento;
+	END;
+	MEMBER PROCEDURE setAnticipo (Anticipo NUMBER) IS
+	BEGIN
+		SELF.Anticipo := Anticipo;
+	END;
+END;
+/
+
+CREATE TABLE empleados OF tipo_empleado;
+
+INSERT INTO empleados VALUES('1','Pepe','Director',sysdate,2000,500,0);
+INSERT INTO empleados VALUES('2','Juan','Vendedor',sysdate,1000,300,0);
+INSERT INTO empleados VALUES('3','Elena','Vendedor',sysdate,1000,400,0);
+
+DECLARE
+e tipo_empleado;
+BEGIN
+	SELECT VALUE(emp) INTO e FROM empleados emp WHERE emp.Rut='2';
+
+	DBMS_OUTPUT.PUT_LINE(e.Nombre || e.Cargo ||' sueldo '||e.Sueldo|| ' Sueldo liquido ' || e.sueldo_liquido);
+	e.aumento_sueldo(400);
+	UPDATE empleados e SET VALUE(e) = e WHERE e.Rut = '2';
+	DBMS_OUTPUT.PUT_LINE(e.Nombre || e.Cargo ||' sueldo '||e.Sueldo|| ' Sueldo liquido ' || e.sueldo_liquido);
+	
+END;
+/
