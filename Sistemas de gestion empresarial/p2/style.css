@@ -1,0 +1,29 @@
+body{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: aquamarine;
+    text-align: center;
+}
+img{
+    width: 50%;
+    align-items: center;
+    text-align: center;
+}
+.formulario{
+    background-color: azure;
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    height: 200px;
+}
+
+.boton{
+    background-color: cornsilk;
+    border-color: burlywood;
+    width: 45%;
+}
+
+.boton:hover{
+    background-color: rgb(251, 255, 25);
+}

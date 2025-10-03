@@ -73,7 +73,7 @@ console.log("Piña no es un numero?: " + isNaN(num1.toString()))
 console.log("Num1 con 5 decimales: " + num1.toFixed(5))
 */
 
-
+/*
 let nombre = "Alex"
 console.log("Nombre: " + nombre)
 console.log(`Nombre: ${nombre}`)
@@ -85,3 +85,48 @@ console.log("Typeof de tu nombre: " + typeof(nombre))
 console.log("Nombre incluye 'le': " + nombre.includes("le"))
 
 console.log("Nombre recortado: " + nombre.slice(1,4))
+let frase = "    No,me,gusta,el,chocolate "
+console.log(frase.replaceAll("o", "i"))
+console.log("Eliminar espacios antes y despues de la frase: " + frase.trim())
+console.log("Separa en un array el String: ")
+console.log(frase.split(','))
+
+
+
+let nombre = prompt("Cual es su nombre: ")
+let edad = parseInt(prompt("Que edad tiene?"))
+const CUOTA = 110
+let resultado = 0
+
+if(edad >= 64){
+    resultado = CUOTA - (CUOTA * 0.3)
+} else if (edad >= 34){
+    resultado = CUOTA - (CUOTA * 0.1)
+} else{
+    resultado =  CUOTA
+}
+
+let carta = `Hola vecin@ ${nombre}, tienes ${edad} años y por lo tanto, te corresponde pagar ${resultado}`
+document.getElementById("parrafo").innerHTML = carta
+
+
+let conf = confirm("Estas de acuerdo con que los viernes son maravillosos?")
+const imagen = document.getElementById("imagen")
+
+if (conf) {
+    document.getElementById("parrafo").innerHTML = "Si esta de acuerdo"
+    imagen.src="https://media.istockphoto.com/id/157030584/es/vector/bot%C3%B3n-pulgar-levantado-emoticono.jpg?s=612x612&w=0&k=20&c=oH8zfmz-CxHLzQl4YuK4IY4aoFCyIcp8-37N4wYHemI="
+
+} else {
+    document.getElementById("parrafo").innerHTML = "No esta de acuerdo"
+    imagen.src="https://ih1.redbubble.net/image.4701025867.8070/aps,504x498,medium,transparent-pad,600x600,f8f8f8.u1.jpg"
+}
+
+
+//Operador ternario
+const COSTE = 150
+let cifra = parseInt(prompt("Dinero: "))
+let texto = document.getElementById("parrafo")
+cifra>COSTE  ? texto.innerHTML = "Si, te vas de viaje" : texto.innerHTML = "No, te quedas en casa"
+*/
+
