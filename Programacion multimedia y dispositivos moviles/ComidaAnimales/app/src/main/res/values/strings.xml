@@ -1,3 +1,7 @@
 <resources>
+
+    <!--Esto es aplicacion comida animales-->
     <string name="app_name">ComidaAnimales</string>
+    <string name="dog">Perro</string>
+    <string name="cat">Gato</string>
 </resources>
