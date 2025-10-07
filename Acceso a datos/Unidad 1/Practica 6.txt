@@ -1,0 +1,64 @@
+CREATE OR REPLACE TYPE colec_hijos AS VARRAY(10) OF VARCHAR2(30);
+/
+
+DROP TABLE empleado;
+CREATE TABLE empleado(
+Idemp NUMBER,
+Nombre VARCHAR2(30),
+Apellidos VARCHAR2(30),
+Hijos colec_hijos);
+
+INSERT INTO empleado VALUES(3, 'Francisco', 'Pérez', colec_hijos('Luis', 'Ursula'));
+INSERT INTO empleado VALUES(2, 'Esperanza', 'Jimenéz', colec_hijos('Jose, Carlos, Pedro'));
+
+SELECT * FROM empleado;
+
+SELECT Hijos FROM empleado WHERE Idemp = 1;
+
+
+SELECT Hijos FROM empleado;
+
+
+DECLARE
+v_hijos colec_hijos;
+cuenta NUMBER;
+BEGIN
+	SELECT Hijos INTO v_hijos FROM empleado WHERE Idemp = 3;
+	cuenta := v_hijos.COUNT;
+	DBMS_OUTPUT.PUT_LINE('Total de hijos: '||cuenta);
+END;
+/
+
+UPDATE empleado SET Hijos = colec_hijos('Luis', 'Ursula') WHERE Idemp = 1;
+UPDATE empleado SET Hijos = colec_hijos('Jose', 'Carlos', 'Pedro') WHERE Idemp = 2;
+
+
+
+DECLARE
+	CURSOR cur_empleados IS
+	SELECT * FROM empleado;
+BEGIN
+	FOR emp IN cur_empleados LOOP
+		FOR I IN 1 .. emp.Hijos.COUNT LOOP
+			DBMS_OUTPUT.PUT_LINE(emp.Hijos(I));
+		END LOOP;
+	END LOOP;
+END;
+/
+
+
+
+DECLARE
+	CURSOR cur_emp IS
+	SELECT * FROM empleado;
+BEGIN
+	FOR emp IN cur_emp LOOP
+		DBMS_OUTPUT.PUT_LINE('Idemp: '||emp.Idemp||' NOMBRE: '||emp.Nombre||' APELLIDO: '||emp.Apellidos);
+		FOR I IN 1 .. EMP.Hijos.COUNT LOOP
+		DBMS_OUTPUT.PUT_LINE('El hijo: '||I||' Se llama: '||emp.Hijos(I));
+		END LOOP;
+	END LOOP;
+END;
+/
+
+DELETE FROM empleado WHERE Idemp = 3;
