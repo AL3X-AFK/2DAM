@@ -1,0 +1,39 @@
+create or replace type direccion as OBJECT
+(
+calle VARCHAR(25),
+ciudad varchar(20),
+codigo_post NUMBER(5)
+);
+/
+
+
+create type tabla_anidada as TABLE of direccion;
+/
+
+
+create table ejemplo_tabla_anidada(
+id NUMBER (2),
+apellidos VARCHAR2(35),
+direc tabla_anidada) 
+nested table direc store as Direc_anidada;
+/
+
+desc tabla_anidada;
+
+
+desc ejemplo_tabla_anidada;
+
+
+insert into ejemplo_tabla_anidada VALUES(1, 'Ramos', 
+tabla_anidada(direccion('c Manantailes,2', 'Guadalajara', 19984),
+direccion('c manantialesw 14','guadalajara', 19984), 
+direccion('c paris, 9', 'caceres', 12345),
+direccion('c segovia, 20', 'toledo' , 45555)));
+
+
+insert into ejemplo_tabla_anidada VALUES(2, 'Martin',
+tabla_anidada(direccion('c huesca, 2', 'Alcala h.' , 28008),
+direccion('c madrid, 45' , 'Alcorcon', 28999)));
+
+
+select * from ejemplo_tabla_anidada;

@@ -8,8 +8,10 @@ Nombre VARCHAR2(30),
 Apellidos VARCHAR2(30),
 Hijos colec_hijos);
 
-INSERT INTO empleado VALUES(3, 'Francisco', 'Pérez', colec_hijos('Luis', 'Ursula'));
+INSERT INTO empleado VALUES(1, 'Francisco', 'Pérez', colec_hijos('Luis', 'Ursula'));
 INSERT INTO empleado VALUES(2, 'Esperanza', 'Jimenéz', colec_hijos('Jose, Carlos, Pedro'));
+
+UPDATE empleado set Idemp = 1 WHERE Idemp = 3;
 
 SELECT * FROM empleado;
 
@@ -63,8 +65,61 @@ END;
 
 
 DECLARE
-
+	CURSOR cur IS
+	SELECT * FROM empleado;
+	cuenta NUMBER;
 BEGIN
-
+	FOR i in cur LOOP
+		dbms_output.put_line('IDEMP: ' || i.Idemp ||' NOMBRE: '||i.Nombre||' APELLIDO: '||i.Apellidos);
+		cuenta := i.Hijos.COUNT;
+		DBMS_OUTPUT.PUT_LINE('total de hijos es: '|| cuenta);
+	end LOOP;
 END;
 /
+
+
+
+DECLARE
+  v_empleado empleado%ROWTYPE;
+BEGIN
+  SELECT * INTO v_empleado FROM empleado WHERE Idemp = 1;
+  
+  FOR j IN 1 .. v_empleado.Hijos.COUNT LOOP
+    DBMS_OUTPUT.PUT_LINE('El hijo ' || j || ' se llama: ' || v_empleado.Hijos(j));
+  END LOOP;
+  
+  v_empleado.Hijos.extend(1);
+  v_empleado.Hijos(v_empleado.Hijos.COUNT):='Antonio';
+  
+  DBMS_OUTPUT.PUT_LINE('Hijos depues de añadir');
+
+  FOR j IN 1 .. v_empleado.Hijos.COUNT LOOP
+    DBMS_OUTPUT.PUT_LINE('El hijo ' || j || ' se llama: ' || v_empleado.Hijos(j));
+  END LOOP;
+END;
+
+
+DECLARE
+v_empleado empleado%rowtype;
+BEGIN
+	select * INTO v_empleado FROM empleado WHERE Idemp = 1;
+	
+	FOR i in 1 .. v_empleado.Hijos.COUNT LOOP
+		DBMS_OUTPUT.PUT_LINE('El hijo ' || i || ' se llama: ' || v_empleado.Hijos(i));	
+	end LOOP;
+	
+	v_empleado.Hijos.extend(3,1);
+	
+	DBMS_OUTPUT.PUT_LINE('Despues del cambio: ');	
+	
+	FOR j in 1 .. v_empleado.Hijos.COUNT LOOP
+		DBMS_OUTPUT.PUT_LINE('El hijo ' || j || ' se llama: ' || v_empleado.Hijos(j));	
+	end LOOP;
+END;
+/
+
+select * from user_varrays;
+
+
+
+

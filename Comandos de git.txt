@@ -3,6 +3,9 @@ pull:     git pull origin main
 
 
 Datos
+
+set serveroutput on
+
 (Crear bd practica cero en la base de datos)
 Connect system/system
 Create user practica0 identified by practica0;

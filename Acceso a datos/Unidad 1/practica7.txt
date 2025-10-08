@@ -1,0 +1,42 @@
+create type colec_tipo_nombres_dept as varray (7) of VARCHAR2(30);
+/
+
+
+create table departamentos(
+Region varchar(25),
+Nombres_dept colec_tipo_nombres_dept);
+
+
+INSERT INTO departamentos VALUES('Eurpa', colec_tipo_nombres_dept('shipping', 'sales','finances'));
+INSERT INTO departamentos VALUES('America', colec_tipo_nombres_dept('sales', 'finances','shipping'));
+INSERT INTO departamentos VALUES('Asia', colec_tipo_nombres_dept('finances', 'payroll','shipping','sales'));
+
+
+update departamentos set Region = 'Europa' WHERE Region = 'Eurpa';
+
+
+DECLARE
+	colec colec_tipo_nombres_dept := colec_tipo_nombres_dept('benefits', 'adversiting','contracting','executive','marketing');
+	v_depts departamentos%ROWTYPE;
+BEGIN
+	UPDATE departamentos SET Nombres_dept = colec WHERE region = 'Europa';
+	select * into v_depts from departamentos WHERE region = 'Europa';
+	FOR i in 1 .. v_depts.Nombres_dept.COUNT LOOP
+		dbms_output.put_line('departamentos = ' || v_depts.Nombres_dept(i));
+	end loop;	
+end;
+/
+
+
+declare
+	cursor cur IS
+	select * from departamentos;
+BEGIN
+	FOR i in cur loop
+		dbms_output.put_line('Region: ' ||i.region);
+		FOR j in 1 .. i.Nombres_dept.COUNT loop
+			dbms_output.put_line('departamento (' || j || ') '||i.Nombres_dept(j));
+		end loop;
+	end loop;
+end;
+/
