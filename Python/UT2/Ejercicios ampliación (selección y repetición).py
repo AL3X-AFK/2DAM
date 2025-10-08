@@ -1,4 +1,3 @@
-'''
 #1 Suma de números pares e impares. Pide un número n y calcula por separado la suma de los números pares y de los impares entre 1 y n.
 x = int(input("Ingresa un numero: "))
 sumaPares = 0
@@ -70,23 +69,145 @@ else:
 #8 Potencias sin usar operador **. Pide una base y un exponente, y calcula la potencia mediante multiplicaciones sucesivas.
 base = int(input("Ingresa la base: "))
 pot = int(input("Ingresa la potencia: "))
-x = base
-y = base
-for _ in range(pot -1):
-    res = x * y
-    x = res
+res = 1
+for _ in range(pot):
+    res *= base
 print (res)
-'''
+
 #9 Inversión de número. Pide un número entero y muestra su valor invertido (por ejemplo, 1234 → 4321).
+num = int(input("Ingresa un numero: "))
+invertido = int("".join(reversed(str(num))))
+print(invertido)
 
 #10 Palíndromo numérico. Determina si un número leído por teclado es palíndromo (se lee igual al derecho y al revés).
+num = int(input("Ingresa un numero: "))
+invertido = int("".join(reversed(str(num))))
+if num == invertido:
+    print ("Es palondromo")
+else:
+    print ("No es palindromo")
+
 #11 Conversión decimal → binario. Pide un número entero positivo y convierte a binario sin usar bin(). (Usar divisiones sucesivas entre 2 y guardar los restos.)
+num = int(input("Ingrea un numero: "))
+binario = ""
+while num!=0:
+    resto = num%2
+    binario += str(resto)
+    num //= 2
+binario = int("".join(reversed(str(binario))))
+print (binario)
+
 #12 Máximo común divisor (MCD). Calcula el MCD de dos números usando el algoritmo de Euclides.
+num1 = int(input("Ingresa el numero 1: "))
+num2 = int(input("Ingresa el numero 2: "))
+a = num1
+b = num2
+while b!= 0:
+    a, b = b, a%b
+print("El MCD es: ", a) 
+
 #13 Triángulo de Pascal. Pide un número de filas n y muestra el triángulo de Pascal con bucles anidados.
+filas = int(input("Numero de filas: "))
+filaAnterior = []
+
+for i in range(filas):
+    filaActual = []
+    for j in range(i + 1):
+        if j == 0 or j == i:
+            filaActual.append(1)
+        else:
+            filaActual.append(filaAnterior[j - 1] + filaAnterior[j])
+    print(" " * (filas - i), end="")
+    for num in filaActual:
+        print(num, end=" ")
+    print()  
+    filaAnterior = filaActual
+
+
 #14 Números primos en un rango. Pide dos números a y b y muestra todos los primos entre a y b.
+num1 = int(input("Ingresa un numero: "))
+num2 = int(input("Ingresa otro numero: "))
+primos = []
+
+for i in range (num1, num2+1):
+    cantidad = 0
+    for j in range (1, i+1):
+        if i % j == 0:
+            cantidad += 1
+
+    if cantidad == 2:
+        primos.append(i)
+print(primos)    
+
+
 #15 Descomposición en factores primos. Pide un número y muestra su descomposición en factores primos.
+num = int(input("Ingresa un numero: "))
+primos = []
+i = 2
+while num>1:
+    while num % i == 0:
+        primos.append(i)
+        num = num //i
+    i = i +1
+print(primos) 
+
+
 #16 Suma de dígitos repetida. Pide un número y suma sus dígitos repetidamente hasta obtener una sola cifra (número digital).
+n = int(input("Ingresa el numero: "))
+while n>9:
+    suma = 0
+    for i in str(n):
+        suma += int(i)
+    n = suma
+print(n)
+
+
 #17 Detectar número Armstrong. Un número de 3 cifras es Armstrong si la suma de sus dígitos elevados al cubo es igual al propio número. (Ejemplo: 153 → 1³ + 5³ + 3³ = 153)
+n = int(input("Ingresa un numero de tres cifras: "))
+x = 0
+for i in str(n):
+    x += int(i)**3
+if(x == n):
+    print(f"{n} es amstrong")
+else:
+    print(f"{n} no es amstrong")
+
+
 #18 Cifras crecientes. Pide un número y determina si sus cifras están en orden creciente (ejemplo: 1359 ✅, 1324 ❌).
+n = int(input("Ingresa un numero: "))
+n = str(n)
+creciente = True
+for i in range (len(n)-1):
+    if n[i] >= n[i+1]:
+        creciente = False
+        break
+if creciente:
+    print ("Orden creciente ✅")
+else:
+    print("No es orden creciente ❌")
+
+
 #19 Números primos gemelos. Muestra todos los pares de números primos menores de 100 que difieren en 2 unidades.
+primos = []
+for i in range(2, 101):
+    x = 0
+    for j in range (1,i+1):
+        if i % j == 0:
+            x +=1
+    if x == 2:
+        primos.append(i)
+print(primos)
+for i in range (0, len(primos)-2):
+    if primos[i+1] - primos [i] == 2 :
+        print (primos[i], primos[i+1])
+
+
 #20 Secuencia de Collatz (o conjetura del 3n+1). Pide un número y genera la secuencia hasta llegar a 1: Si es par, se divide entre 2. Si es impar, se multiplica por 3 y se suma 1. (Mostrar la secuencia completa.)
+n = int(input("Ingresa el numero n: "))
+while n != 1:
+    if(n % 2 == 0):
+        n = n//2
+        print (n)
+    elif(n%2 != 0):
+        n = 3 * n + 1
+        print (n)
