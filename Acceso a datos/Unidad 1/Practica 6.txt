@@ -61,4 +61,10 @@ BEGIN
 END;
 /
 
-DELETE FROM empleado WHERE Idemp = 3;
+
+DECLARE
+
+BEGIN
+
+END;
+/
