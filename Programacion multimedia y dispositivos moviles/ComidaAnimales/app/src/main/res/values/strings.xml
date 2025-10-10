@@ -4,4 +4,9 @@
     <string name="app_name">ComidaAnimales</string>
     <string name="dog">Perro</string>
     <string name="cat">Gato</string>
+    <string name="weight">Peso</string>
+    <string name="defaultValueWight">1 Kg</string>
+    <string name="age">Edad</string>
+    <string name="defaultAge">1 año</string>
+
 </resources>

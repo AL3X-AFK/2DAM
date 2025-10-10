@@ -19,6 +19,7 @@
         android:orientation="horizontal"
         >
         <androidx.cardview.widget.CardView
+            android:id="@+id/cvDog"
             app:cardCornerRadius="7dp"
             android:layout_marginHorizontal="8dp"
             android:layout_width="0dp"
@@ -49,14 +50,17 @@
                 </ImageView>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
-            app:cardCornerRadius="7dp"
-            android:layout_marginHorizontal="8dp"
+            android:id="@+id/cvCat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
             android:layout_weight="1"
+            android:clickable="false"
             app:cardBackgroundColor="@color/app_comida_mascotas_cardview"
-            >
+            app:cardCornerRadius="7dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,17 +73,121 @@
                     android:gravity="center"
                     android:text="@string/cat"
                     android:textColor="@color/app_comida_mascotas_text"
-                    android:textSize="30dp"
-                    />
+                    android:textSize="30dp" />
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="70dp"
-                    app:tint="@color/app_comida_mascotas_text"
                     android:src="@drawable/cat"
-                    >
-                </ImageView>
+                    app:tint="@color/app_comida_mascotas_text" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
     </LinearLayout>
+
+
+    <androidx.cardview.widget.CardView
+            android:id="@+id/cvWeight"
+            app:cardCornerRadius="7dp"
+            app:cardBackgroundColor="@color/app_comida_mascotas_cardview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
+            android:layout_marginHorizontal="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="3"
+
+                >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/app_comida_mascotas_text"
+                android:text="@string/weight"
+                android:textAllCaps="true"
+                android:textSize="30dp"
+                android:textAlignment="center"/>
+            <TextView
+                android:id="@+id/tvWeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/defaultValueWight"
+                android:textSize="30dp"
+                android:textColor="@color/app_comida_mascotas_text"
+                android:textAlignment="center"
+
+                />
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/rsWeight"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:valueFrom="1"
+                android:valueTo="70"
+                android:stepSize="1"
+                />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginVertical="8dp"
+        android:background="@color/app_comida_mascotas_background"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/age"
+                android:textSize="30dp"
+                android:textAlignment="center"
+                android:background="@color/app_comida_mascotas_background"
+                android:textColor="@color/app_comida_mascotas_text"
+                android:textAllCaps="true"/>
+            <TextView
+                android:id="@+id/tvAge"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/defaultAge"
+                android:textSize="30dp"
+                android:textAlignment="center"
+                android:background="@color/app_comida_mascotas_background"
+                android:textColor="@color/app_comida_mascotas_text"
+                android:textAllCaps="true"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fabDecrementAge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:src="@drawable/indeterminate_svgrepo_com"
+                    />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fabAddAge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:src="@drawable/baseline_add_24"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
 </LinearLayout>
