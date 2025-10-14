@@ -1,0 +1,42 @@
+create or replace type telefono as OBJECT(
+Tipo varchar(30),
+Numero NUMBER);
+
+create or replace type listin as TABLE of telefono;
+/
+
+create table clientes (
+	Id_cli NUMBER,
+	Nombre VARCHAR2(30),
+	Apellido VARCHAR2(30),
+	Direccion VARCHAR2(30),
+	Poblacion varchar(30),
+	Provincia varchar(30),
+	Telefonos listin)
+	NESTED table telefonos store as tel_tab;
+/
+
+INSERT INTO clientes VALUES(
+1, 'Alex', 'Valdez','C. Juan, 11', 'Madrid', 'Madrid', listin(telefono('tipo 1', 123123123), telefono('tipo 2', 456456456), telefono('tipo 3', 789789789)));
+/
+
+INSERT into clientes VALUES(
+2, 'Maria', 'Sancehz','C. almada, 10', 'Coslada', 'Madrid', listin(telefono('tipo 1', 321321321), telefono('tipo 2', 654654654), telefono('tipo 3', 987987987)));
+/
+
+INSERT into clientes VALUES(
+3, 'Jose', 'Ramirez','C. Jacinto', 'Sevilla', 'Sevilla', listin(telefono('tipo 1', 231231231), telefono('tipo 2', 564564564), telefono('tipo 3', 897897897)));
+/
+
+SELECT * from clientes;
+
+select segment_name, segment_type 
+from dba_segments 
+where segments_name like '%HIJO%';
+
+
+select *
+from dba_objects
+where object_name like '%TEL%';
+
+select * from user_nested_table;
