@@ -1,23 +1,27 @@
+import java.util.*;
 
 public class Calendario {
     
     int diaActual = 0;
-    Terreno terreno;
+    List<Terreno> terrenos;
     //LocalDate fecha;
 
-    public Calendario(Terreno terreno){
-        this.terreno = terreno;
+    public Calendario(List<Terreno> terrenos){
+        this.terrenos = terrenos;
     }
 
     public synchronized void avanzaDia(){
         diaActual++;
-        
-        Vegetal planta = terreno.getPlanta();
-        
-        if (planta != null) {
-            planta.crecer(1);
-            System.out.println(planta.estado());
+        System.out.println("= Dia " + diaActual + " = ");
+
+        for(Terreno t: terrenos){
+            Vegetal planta = t.getPlanta();
+            if (planta != null ) {
+                planta.crecer(1);
+                System.out.println(planta.estado());
+            }
         }
+        
 
     }
 

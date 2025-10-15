@@ -11,7 +11,6 @@ public class HiloCalendario extends  Thread{
     public void run(){
         while (running) {
             
-            System.out.println("Dia: " + calendario.getDiaActual());
             calendario.avanzaDia();
             try {
             Thread.sleep(2000);

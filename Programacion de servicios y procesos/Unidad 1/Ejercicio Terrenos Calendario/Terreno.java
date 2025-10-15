@@ -4,7 +4,7 @@ public class Terreno {
 
     void sembrar(Vegetal v){
         planta = v;
-        System.out.println("Sembado: " + planta.getNombre());
+        System.out.println("Sembado: " + ((Planta)v).getNombre());
     }
 
     void mostrarEstado(){
