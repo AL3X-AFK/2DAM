@@ -43,6 +43,6 @@ public class Fabrica {
         );
 
 
-        System.out.println("\nSimulacion detenida");
+        System.out.println("\n Simulacion detenida");
     }
 }
