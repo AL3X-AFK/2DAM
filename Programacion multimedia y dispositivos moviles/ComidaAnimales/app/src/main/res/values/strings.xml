@@ -8,5 +8,8 @@
     <string name="defaultValueWight">1 Kg</string>
     <string name="age">Edad</string>
     <string name="defaultAge">1 año</string>
+    <string name="year">año</string>
+    <string name="result">resultado</string>
+
 
 </resources>

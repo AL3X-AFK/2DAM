@@ -168,7 +168,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="center"
+                android:background="@color/app_comida_mascotas_background">
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/fabDecrementAge"
                     android:layout_width="wrap_content"
@@ -187,6 +188,33 @@
         </LinearLayout>
 
 
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvDog"
+        app:cardCornerRadius="7dp"
+        android:layout_marginHorizontal="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:cardBackgroundColor="@color/app_comida_mascotas_cardview"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingVertical="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/result"
+                android:textColor="@color/app_comida_mascotas_text"
+                android:textSize="30dp"
+                />
+
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
 

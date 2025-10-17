@@ -21,8 +21,13 @@ class MainActivity : AppCompatActivity() {
     lateinit var tvAge: TextView
     lateinit var fabDecrementAge: FloatingActionButton
     lateinit var fabAddAge: FloatingActionButton
+    lateinit var tvResult: TextView
 
     var animalSelected: String? = null
+    var ageSelected: Int? = null
+    var weightSelected: Int? = null
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,9 +47,32 @@ class MainActivity : AppCompatActivity() {
         tvAge = findViewById(R.id.tvAge)
         fabAddAge = findViewById(R.id.fabAddAge)
         fabDecrementAge = findViewById(R.id.fabDecrementAge)
+        tvResult = findViewById(R.id.tvResult)
+
     }
 
     private fun initiListeners(){
+        fabDecrementAge.setOnClickListener {
+            if (ageSelected == null || ageSelected == 0){
+                ageSelected = 0
+            } else{
+                ageSelected = ageSelected!! -1
+            }
+            tvAge.text = "$ageSelected" + getString(R.string.year)
+            calculatetvResult()
+
+        }
+        fabAddAge.setOnClickListener {
+            if (ageSelected == null){
+                ageSelected = 1
+            } else if (ageSelected!! < 70){
+                ageSelected = ageSelected!! + 1
+            }
+
+            tvAge.text = "$ageSelected" + getString(R.string.year)
+            calculatetvResult()
+        }
+
         cvDog.setOnClickListener {
             animalSelected = "Dog"
             var colorSeleccion: Int = ContextCompat.getColor(this, R.color.app_comida_mascotas_cardview_selected)
@@ -52,6 +80,7 @@ class MainActivity : AppCompatActivity() {
 
             var colorNoSeleccion: Int = ContextCompat.getColor(this, R.color.app_comida_mascotas_cardview)
             cvCat.setBackgroundColor(colorNoSeleccion)
+            calculatetvResult()
         }
         cvCat.setOnClickListener {
             animalSelected = "Cat"
@@ -60,16 +89,44 @@ class MainActivity : AppCompatActivity() {
 
             var colorNoSeleccion: Int = ContextCompat.getColor(this, R.color.app_comida_mascotas_cardview)
             cvDog.setBackgroundColor(colorNoSeleccion)
+            calculatetvResult()
         }
 
         rsWeight.addOnChangeListener {_, value, _->
 
             var resultWeight = value.toInt()
+            weightSelected = resultWeight
             tvWeight.text = "$resultWeight Kg"
+            calculatetvResult()
         }
     }
 
-    private fun calculateWeightFood(){
+    private fun calculatetvResult(){
+        if(animalSelected != null && ageSelected != null && weightSelected!= null){
+            tvResult.text = calculateWeightFood().toString()
+        }
+    }
+
+    private fun calculateWeightFood(): Float{
+        var percentAge: Double = 0.0
+        var percentWeight: Double = 0.0
+        if (animalSelected.equals("dog")){
+            percentWeight = ((weightSelected.toDouble()!!) + 70).toDouble()
+            percentAge = when{
+                ageSelected!! <= 1 -> 1.20
+                ageSelected!!<8 -> 0.85
+                else -> 1.0
+            }
+        }else{
+            percentWeight = ((weightSelected!!25)+50).toDouble()
+            percentAge = when{
+                ageSelected!! <= 1 -> 1.15
+                ageSelected !! > 10 -> 0.90
+                else -> 1.0
+            }
+        }
+        var result : float = (percentWeight+percentAge.toFloat())
+        return result
 
     }
 
