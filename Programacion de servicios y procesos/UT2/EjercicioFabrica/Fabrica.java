@@ -36,6 +36,13 @@ public class Fabrica {
         hiloConsumidor1.join();
         hiloConsumidor2.join();
 
-        System.out.println("Simulacion detenida");
+
+        System.out.println("\nConteo de productos por hilo:");
+        consumidor.getProductosPorHilo().forEach((hilo, cantidad) ->
+            System.out.println(hilo + " empaquetó: " + cantidad + " productos")
+        );
+
+
+        System.out.println("\nSimulacion detenida");
     }
 }

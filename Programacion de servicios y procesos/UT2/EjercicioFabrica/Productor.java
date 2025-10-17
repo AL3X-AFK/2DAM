@@ -2,7 +2,7 @@ import java.util.concurrent.BlockingQueue;
 
 public class Productor implements Runnable {
 
-    private BlockingQueue<String> cinta;
+    private final BlockingQueue<String> cinta;
     private int contador = 1;
     private boolean  running = true;
 
@@ -25,7 +25,7 @@ public class Productor implements Runnable {
                 int tiempoEspera = (int)(Math.random()*400+100);
                 Thread.sleep(tiempoEspera);
             }
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
 
         }
     }
