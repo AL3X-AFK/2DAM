@@ -1,0 +1,7 @@
+[project]
+name = "ejercicios_ampliacion_alx_v"
+version = "0.1.2"
+description = "Libreria educativa"
+authors = [{ name = "Alex Valdez" }]
+readme = "README.md"
+requires-python = ">=3.8"

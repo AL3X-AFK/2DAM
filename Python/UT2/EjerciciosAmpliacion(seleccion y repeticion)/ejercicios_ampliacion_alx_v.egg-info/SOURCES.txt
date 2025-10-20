@@ -1,0 +1,8 @@
+README.md
+pyproject.toml
+ejerciciosAmpliacion/__init__.py
+ejerciciosAmpliacion/funciones.py
+ejercicios_ampliacion_alx_v.egg-info/PKG-INFO
+ejercicios_ampliacion_alx_v.egg-info/SOURCES.txt
+ejercicios_ampliacion_alx_v.egg-info/dependency_links.txt
+ejercicios_ampliacion_alx_v.egg-info/top_level.txt
