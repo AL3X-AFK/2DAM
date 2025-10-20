@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">EjemploListado</string>
+    <string name="listado_app">Aplicacion de listado</string>
+    <string name="listado_categories">categorías</string>
+    <string name="listado_tasks">Tareas</string>
+    <string name="listado_dialog_add_talk">Iniciar dialogo</string>
+    <string name="listado_futbol">Fútbol</string>
+    <string name="listado_rugby">Rugby</string>
+    <string name="listado_tennis">Tennis</string>
+    <string name="listado_btn_add_task">Crear tarea</string>
+
+
+</resources>

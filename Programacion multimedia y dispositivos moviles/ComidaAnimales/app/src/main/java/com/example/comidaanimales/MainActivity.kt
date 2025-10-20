@@ -111,21 +111,21 @@ class MainActivity : AppCompatActivity() {
         var percentAge: Double = 0.0
         var percentWeight: Double = 0.0
         if (animalSelected.equals("dog")){
-            percentWeight = ((weightSelected.toDouble()!!) + 70).toDouble()
+            percentWeight = ((weightSelected!!) + 70).toDouble()
             percentAge = when{
                 ageSelected!! <= 1 -> 1.20
                 ageSelected!!<8 -> 0.85
                 else -> 1.0
             }
         }else{
-            percentWeight = ((weightSelected!!25)+50).toDouble()
+            percentWeight = ((weightSelected!!)+50).toDouble()
             percentAge = when{
                 ageSelected!! <= 1 -> 1.15
                 ageSelected !! > 10 -> 0.90
                 else -> 1.0
             }
         }
-        var result : float = (percentWeight+percentAge.toFloat())
+        var result : Float = (percentWeight+percentAge).toFloat()
         return result
 
     }
