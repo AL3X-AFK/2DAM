@@ -1,0 +1,58 @@
+CREATE or REPLACE TYPE tip_telefonos as VARRAY(3) of VARCHAR(15);
+
+CREATE or REPLACE TYPE tip_direccion as OBJECT(
+calle VARCHAR(50),
+poblacion VARCHAR(50),
+codpod VARCHAR(20),
+provincia VARCHAR(40));
+/
+
+CREATE or REPLACE TYPE tip_cliente as OBJECT(
+idcliente NUMBER,
+nombre VARCHAR(50),
+direc tip_direccion,
+nif VARCHAR(9),
+telef tip_telefonos);
+/
+
+CREATE or REPLACE TYPE tip_producto as OBJECT(
+idproducto NUMBER,
+descripcion VARCHAR(80),
+pvp NUMBER,
+stockactual NUMBER);
+/
+
+CREATE or REPLACE TYPE tip_linea_venta as OBJECT(
+numerolinea NUMBER,
+idproducto REF tip_producto,
+cantidad NUMBER);
+/
+
+CREATE or REPLACE TYPE tip_lineas_venta is TABLE of tip_linea_venta;
+
+CREATE or REPLACE TYPE tip_venta as OBJECT(
+idventa NUMBER,
+idcliente REF tip_cliente,
+fechaventa DATE,
+lineas tip_lineas_venta,
+MEMBER FUNCTION total_venta RETURN number);
+/
+
+CREATE or REPLACE TYPE BODY tip_venta as
+MEMBER FUNCTION total_venta RETURN number is
+total number := 0;
+prod tip_producto;
+BEGIN
+	FOR i in 1 .. lineas.COUNT LOOP
+		SELECT DEREF(lineas(i).idproducto)
+		INTO prod
+		FROM dual;
+		
+		total := total + (prod.pvp * lineas(i).cantidad);
+	end LOOP;
+	
+	RETURN total;
+end;
+end;
+
+

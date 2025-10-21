@@ -40,3 +40,12 @@ from dba_objects
 where object_name like '%TEL%';
 
 select * from user_nested_table;
+
+
+
+
+update clientes set telefonos = listin(telefono('fijo', 93444444), telefono('movil',65555555), telefono('empresa', 64444444)) where Id_cli = 1;
+
+select cli.* from clientes c, TABLE(c.telefonos) cli;
+
+select cli.*, c.nombre, c.Id_cli from clientes c, TABLE(c.telefonos) cli;
