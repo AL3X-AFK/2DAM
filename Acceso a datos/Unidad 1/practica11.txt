@@ -54,5 +54,54 @@ BEGIN
 	RETURN total;
 end;
 end;
+/
 
 
+create TABLE Tabla_clientes of tip_cliente(
+PRIMARY KEY(idcliente)
+);
+
+CREATE TABLE Tabla_productos of tip_producto(
+PRIMARY KEY (idproducto)
+);
+
+create table Tabla_ventas of tip_venta(
+primary key (idventa)
+) NESTED table lineas STORE as tabla_lineas;
+
+
+INSERT INTO Tabla_clientes VALUES (1,'Luis Garcia’, tip_direccion('calle Las Flores,23’,’Guadalajara’,’19003’,’Guadalajara’),’34343434L’,tip_telefonos(‘949876655’,’949876655’));
+insert into Tabla_clientes values (2,'ana Serrano', tip_direccion('calle Galiana,6',’Guadalajara’,’19004’,’Guadalajara’),’76767667F’,tip_telefonos(‘94980009’));
+
+INSERT into Tabla_productos values (1, 'caja de cristal de murano',100,5);
+INSERT into Tabla_productos values (2, 'bicicleta city',120,15);
+INSERT into Tabla_productos values (3, '100 lapices de colores',20,5);
+INSERT into Tabla_productos values (4, 'ipad',600,5);
+INSERT into Tabla_productos values (5, 'ordenador portatil',400,10);
+
+Insert into Tabla_ventas values (1, (SELECT ref(C) FROM Tabla_clientes C WHERE C.idcliente = 1), 
+SYSDATE, 
+tip_lineas_venta(tip_linea_venta(1,(SELECT ref(P) FROM Tabla_productos P WHEre idproducto = 1), 1),
+tip_linea_venta(2,(SELECT ref(P) FROM Tabla_productos P WHEre idproducto = 2),2)));
+
+
+Insert into Tabla_ventas values (2, (SELECT ref(C) FROM Tabla_clientes C WHERE C.idcliente = 1), 
+SYSDATE, 
+tip_lineas_venta(tip_linea_venta(1,(SELECT ref(P) FROM Tabla_productos P WHEre idproducto = 1), 2),
+tip_linea_venta(2,(SELECT ref(P) FROM Tabla_productos P WHEre idproducto = 2),1),
+tip_linea_venta(3, (SELECT ref(P) FROM Tabla_productos P WHEre idproducto = 3),4)));
+
+
+SELECT * 
+FROM Tabla_ventas v,
+	table(v.lineas) l
+WHERE v.idventa = 2;
+
+
+SELECT l.numerolinea,
+	DEREF(l.idproducto).idproducto as idproducto,
+	deref(l.idproducto).descripcion as descripcion,
+	l.cantidad
+from Tabla_ventas v, 
+	table(v.lineas) l
+WHEre v.idventa = 2;
