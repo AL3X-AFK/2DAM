@@ -17,6 +17,11 @@
     <color name="listado_white">#EFEBEB</color>
     <color name="listado_futbol_category">#1D6618</color>
     <color name="listado_rugby_category">#6B4319</color>
+    <color name="listado_tennis_category">#F8DD30</color>
+    <color name="listado_subtitle_text">#E209A8</color>
+    <color name="listado_tasks">#3094F8</color>
+    <color name="listado_accent">#B930F8</color>
+    <color name="listado_other_category">#30F830</color>
 
 
 </resources>

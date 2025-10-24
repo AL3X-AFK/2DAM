@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="250dp"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:background="@color/listado_background">
+
+    <EditText
+        android:id="@+id/etTask"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/listado_white"
+        android:hint="Introduce la tarea"
+        android:textColor="@color/listado_white"
+        android:textColorHint="@color/listado_white"/>
+
+    <RadioGroup
+        android:id="@+id/rgCategories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/rbFutbol"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fútbol"
+            android:checked="true"
+            android:textColor="@color/listado_white"
+            android:buttonTint="@color/listado_futbol_category"
+            />
+        <RadioButton
+            android:id="@+id/rbTennis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tennis"
+            android:checked="false"
+            android:textColor="@color/listado_white"
+            android:buttonTint="@color/listado_tennis_category"
+            />
+    </RadioGroup>
+    <Button
+        android:id="@+id/btnAddTask"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/listado_accent"
+</LinearLayout>
