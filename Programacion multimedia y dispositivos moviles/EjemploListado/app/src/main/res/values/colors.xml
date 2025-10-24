@@ -8,8 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="listado_title">#790DA8</color>
     <color name="listado_background">#A57EB6</color>
+    <color name="listado_title">#790DA8</color>
     <color name="listado_description">#320247</color>
     <color name="listado_teal_200">#05B4C5</color>
     <color name="listado_teal_700">#0771BD</color>
@@ -22,6 +22,4 @@
     <color name="listado_tasks">#3094F8</color>
     <color name="listado_accent">#B930F8</color>
     <color name="listado_other_category">#30F830</color>
-
-
 </resources>

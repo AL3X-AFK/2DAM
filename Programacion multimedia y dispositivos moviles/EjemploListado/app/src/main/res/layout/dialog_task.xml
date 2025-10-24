@@ -30,6 +30,15 @@
             android:buttonTint="@color/listado_futbol_category"
             />
         <RadioButton
+            android:id="@+id/rbRugby"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rugby"
+            android:checked="false"
+            android:textColor="@color/listado_white"
+            android:buttonTint="@color/listado_rugby_category"
+            />
+        <RadioButton
             android:id="@+id/rbTennis"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,10 +47,12 @@
             android:textColor="@color/listado_white"
             android:buttonTint="@color/listado_tennis_category"
             />
+
     </RadioGroup>
     <Button
         android:id="@+id/btnAddTask"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/listado_accent"
+        android:text="Crear Tarea"/>
 </LinearLayout>

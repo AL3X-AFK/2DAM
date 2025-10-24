@@ -32,9 +32,7 @@
             />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvTasks"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
+            android:id="@+id/rvcategories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
@@ -47,7 +45,7 @@
             style="@style/listadoSubtitle"/>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvTasks2"
+            android:id="@+id/rvTasks"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
