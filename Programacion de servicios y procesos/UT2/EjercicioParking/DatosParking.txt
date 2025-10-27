@@ -1,0 +1,8 @@
+Resumen final: 
+Coches que entraron: 20
+Coches que salieron: 1
+Recaudacion total: 0.7000000000000001 $
+Coches restantes en el parking: 19
+
+Registro detallado
+  1498LCD -> 0.7000000000000001 $

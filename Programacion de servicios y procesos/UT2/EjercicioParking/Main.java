@@ -1,4 +1,7 @@
 package EjercicioParking;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -29,19 +32,32 @@ public class Main {
         hiloSalida.interrupt();
         System.out.println("\nDeteniendo simulacion...\n");
 
-        resumenFinal(entrada, salida, parking, registro);
+        System.out.println(resumenFinal(entrada, salida, parking, registro));
+        
+        try {
+            FileWriter fileWriter = new FileWriter("DatosParking.txt");
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(resumenFinal(entrada, salida, parking, registro));
+            bufferedWriter.close();
+        } catch (IOException e) {
+        }
 
+        
     }
 
-    public static void resumenFinal(EntradaParking entrada, SalidaParking salida, BlockingQueue<Coche>parking, ConcurrentHashMap<String, Double> registro){
+    public static String resumenFinal(EntradaParking entrada, SalidaParking salida, BlockingQueue<Coche>parking, ConcurrentHashMap<String, Double> registro){
         
-        System.out.println("Resumen final: ");
-        System.out.println("Coches que entraron: " + EntradaParking.cantidadCochesEntraron);
-        System.out.println("Coches que salieron: " + SalidaParking.cantidadCochesSalieron);
-        System.out.println("Recaudacion total: " + SalidaParking.recaudacionFinal +" $");
-        System.out.println("Coches restantes en el parking: " + parking.size());
-        System.out.println("\nRegistro detallado");
+        StringBuilder text = new StringBuilder();
+
+        text.append("Resumen final: ");
+        text.append("\nCoches que entraron: " + EntradaParking.cantidadCochesEntraron);
+        text.append("\nCoches que salieron: " + SalidaParking.cantidadCochesSalieron);
+        text.append("\nRecaudacion total: " + SalidaParking.recaudacionFinal +" $");
+        text.append("\nCoches restantes en el parking: " + parking.size());
+        text.append("\n\nRegistro detallado");
         registro.forEach((matricula, coste) ->
-        System.out.println("  " + matricula + " -> " + coste + " €"));
+        text.append("\n  " + matricula + " -> " + coste + " $"));
+        
+        return text.toString();
     }
 }
