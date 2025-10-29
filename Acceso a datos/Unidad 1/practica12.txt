@@ -1,0 +1,113 @@
+create or replace type t_listanotas as VARRAY(5) of NUMBER(4,2);
+/
+
+create or replace type t_tcursos as object(
+id_curso NUMBER(4),
+descripcion VARCHAR(60),
+nivel VARCHAR(30),
+turno CHAR(1)
+);
+/
+
+create or replace type t_tasignaturas as object(
+cod_asig NUMBER(4),
+nombre varchar(80),
+tipo char(1), --(obligatoria 1, optativa 2),
+nivel varchar(30)
+);
+/
+
+create or replace type t_tnotas as object(
+cod_asig REF t_tasignaturas,
+notas t_listanotas
+);
+/
+
+create or replace type tip_notas_alum as TABLE of t_tnotas;
+/
+
+create or replace type tip_telefonos2 as varray(3) of varchar(15);
+/
+
+create or replace type tip_direccion2 as object(
+calle varchar(50),
+poblacion varchar(50),
+codpostal number(5)
+);
+/
+
+create or replace type t_talumnos as object(
+dni varchar(10),
+nombre varchar(50),
+direc tip_direccion2,
+telef tip_telefonos2,
+fecha_nac date,
+id_curso ref t_tcursos,
+notas tip_notas_alum);
+/
+
+
+create table tabla_tcursos of t_tcursos;
+
+create table tabla_tasignaturas of t_tasignaturas;
+
+create TABLE tabla_talumnos of t_talumnos
+NESTED table notas store as tabla_notas_alum;
+
+
+insert into tabla_tasignaturas VALUES(1,'Lengua y literatura',1,'ESO');
+insert into tabla_tasignaturas VALUES(2,'Ingles',1,'ESO');
+insert into tabla_tasignaturas VALUES(3,'Ed plastica y visual',1,'ESO');
+insert into tabla_tasignaturas VALUES(4,'Tecnologia',1,'ESO');
+insert into tabla_tasignaturas VALUES(5,'Frances',2,'ESO');
+insert into tabla_tasignaturas VALUES(6,'CC Naturaleza',1,'ESO');
+insert into tabla_tasignaturas VALUES(7,'Fisica y quimica',1,'BACH');
+insert into tabla_tasignaturas VALUES(8,'Biologia y geologia',1,'BACH');
+insert into tabla_tasignaturas VALUES(9,'Matematicas B',1,'BACH');
+insert into tabla_tasignaturas VALUES(10,'Latin',2,'BACH');
+
+
+
+INSERT INTO TABLA_TCURSOS VALUES(1,'1ºESO A', 'SECUNDARIA','M');
+INSERT INTO TABLA_TCURSOS VALUES(2,'1ºESO B', 'SECUNDARIA','M');
+INSERT INTO TABLA_TCURSOS VALUES(3,'1ºESO C', 'SECUNDARIA','M');
+INSERT INTO TABLA_TCURSOS VALUES(4,'1ºESO A', 'SECUNDARIA','M');
+INSERT INTO TABLA_TCURSOS VALUES(5,'1ºESO B', 'SECUNDARIA','M');
+INSERT INTO TABLA_TCURSOS VALUES(6,'1ºESO A', 'SECUNDARIA','M');
+INSERT INTO TABLA_TCURSOS VALUES(7,'1ºESO A', 'SECUNDARIA','M');
+INSERT INTO TABLA_TCURSOS VALUES(8,'1ºESO B', 'SECUNDARIA','M');
+INSERT INTO TABLA_TCURSOS VALUES(9,'1ºESO B', 'SECUNDARIA','M');
+INSERT INTO TABLA_TCURSOS VALUES(10,'1ºESO B', 'SECUNDARIA','T');
+INSERT INTO TABLA_TCURSOS VALUES(11,'1ºBACH', 'BACHILLERATO','M');
+INSERT INTO TABLA_TCURSOS VALUES(12,'1ºBACH', 'BACHILLERATO','T');
+INSERT INTO TABLA_TCURSOS VALUES(13,'2ºBACH', 'BACHILLERATO','M');
+INSERT INTO TABLA_TCURSOS VALUES(14,'2ºBACH', 'BACHILLERATO','T');
+
+
+insert into tabla_talumnos values(
+	'12345678A',
+	'Juan Martin',
+	tip_direccion2('C/Las Flores, 23', 'Guadalajara', 19003),
+	tip_telefonos2('949876655','949876655'),
+	'20/10/1980',
+	(SELECT ref (c) from tabla_tcursos c where id_curso = 1),
+	tip_notas_alum(t_tnotas((Select ref(a)from tabla_tasignaturas a where a.cod_asig=1), t_listanotas(5,6,7,7)),
+				   t_tnotas((Select ref(a)from tabla_tasignaturas a where a.cod_asig=2), t_listanotas(5,4,4,4,5)),
+				   t_tnotas((Select ref(a)from tabla_tasignaturas a where a.cod_asig=3), t_listanotas(3,5,4,4,5))))
+	;
+/
+
+
+desc tabla_talumnos;
+
+Select * from tabla_talumnos;
+
+Select t.nombre,  n.notas 
+from tabla_talumnos t, 
+table (t.notas) n
+where t.dni = '12345678A';
+
+Select t.nombre, DEREF(n.cod_asig).nombre as asignatura, n.notas
+from tabla_talumnos t,
+table(t.notas) n
+where t.dni = '12345678A';

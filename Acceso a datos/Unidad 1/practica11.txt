@@ -47,10 +47,10 @@ BEGIN
 		SELECT DEREF(lineas(i).idproducto)
 		INTO prod
 		FROM dual;
-		
+
 		total := total + (prod.pvp * lineas(i).cantidad);
 	end LOOP;
-	
+
 	RETURN total;
 end;
 end;
@@ -79,20 +79,20 @@ INSERT into Tabla_productos values (3, '100 lapices de colores',20,5);
 INSERT into Tabla_productos values (4, 'ipad',600,5);
 INSERT into Tabla_productos values (5, 'ordenador portatil',400,10);
 
-Insert into Tabla_ventas values (1, (SELECT ref(C) FROM Tabla_clientes C WHERE C.idcliente = 1), 
-SYSDATE, 
+Insert into Tabla_ventas values (1, (SELECT ref(C) FROM Tabla_clientes C WHERE C.idcliente = 1),
+SYSDATE,
 tip_lineas_venta(tip_linea_venta(1,(SELECT ref(P) FROM Tabla_productos P WHEre idproducto = 1), 1),
 tip_linea_venta(2,(SELECT ref(P) FROM Tabla_productos P WHEre idproducto = 2),2)));
 
 
-Insert into Tabla_ventas values (2, (SELECT ref(C) FROM Tabla_clientes C WHERE C.idcliente = 1), 
-SYSDATE, 
+Insert into Tabla_ventas values (2, (SELECT ref(C) FROM Tabla_clientes C WHERE C.idcliente = 1),
+SYSDATE,
 tip_lineas_venta(tip_linea_venta(1,(SELECT ref(P) FROM Tabla_productos P WHEre idproducto = 1), 2),
 tip_linea_venta(2,(SELECT ref(P) FROM Tabla_productos P WHEre idproducto = 2),1),
 tip_linea_venta(3, (SELECT ref(P) FROM Tabla_productos P WHEre idproducto = 3),4)));
 
 
-SELECT * 
+SELECT *
 FROM Tabla_ventas v,
 	table(v.lineas) l
 WHERE v.idventa = 2;
@@ -102,6 +102,66 @@ SELECT l.numerolinea,
 	DEREF(l.idproducto).idproducto as idproducto,
 	deref(l.idproducto).descripcion as descripcion,
 	l.cantidad
-from Tabla_ventas v, 
+from Tabla_ventas v,
 	table(v.lineas) l
 WHEre v.idventa = 2;
+--------------------------------------
+
+SELECT lin.* from Tabla_ventas v, table (v.lineas) lin;
+
+SELECT nombre from Tabla_clientes WHEre idcliente = 2;
+
+update Tabla_clientes set nombre='Rosa Serrano' where idcliente = 2;
+
+SELECT direc from Tabla_clientes WHEre idcliente = 2;
+UPDATE Tabla_clientes SET direc = tip_direccion('Calle Estopa, 35','Guadalajara',19004,'Guadalajara')WHERE idcliente = 2;
+
+
+select * from Tabla_clientes where idcliente = 1;
+select value(c) from Tabla_clientes c where idcliente = 1;
+update Tabla_clientes set telef = tip_telefonos('94949494','95959595','90000000') where idcliente = 1;
+
+select v.idcliente.nombre from Tabla_ventas v where v.idventa = 2;
+select deref(idcliente).nombre from Tabla_ventas v where v.idventa = 2;
+
+select deref (idcliente) from Tabla_ventas v where v.idventa = 2;
+
+select v.idventa, v.total_venta() from Tabla_ventas v where v.idcliente.idcliente = 1;
+select v.idventa, v.total_venta() from Tabla_ventas v where deref(v.idcliente).idcliente=1;
+
+select v.idventa, deref(idcliente),v.fechaventa from Tabla_ventas v;
+
+
+create or replace procedure ver_venta(id number) as
+lin number,
+cant number,
+importe number,
+total_v number,
+produc tip_producto := tip_producto(null,null,null,null),
+cli tip_cliente := tip_cliente(null,null,null,null,null),
+dir tip_direccion:= tip_direccion(null,null,null,null),
+fec date,
+CURSOR c1 is 
+select lin.numerolinea, deref(lin.idproducto), lin.cantidad
+from tabla_ventas v, table(v.lineas) lin WHEre v.idventa=id;
+BEGIN
+	select deref(idcliente), fechaventa, v.total_venta() into cli, fec, total_v
+	from tabla_ventas v where idventa=id;
+	dir:=cli.direc;
+	dbms_output.put_line('Numero de venta: '||id||' Fecha de venta: '||fec);
+	dbms_output.put_line('Cliente: '||cli.nombre);
+	dbms_output.put_line('Direccion: '||dir.calle);
+	dbms_output.put_line('***************************************************');
+	open c1;
+	loop
+	FETCH c1 into lin, produc, cant;
+	exit when c1%notfound;
+	
+	importe := cant*produc.pvp;
+	dbms_output.put_line(lin||'*'||produc.descripcion||'*'||produc.pvp||'*'||cant||'*'||importe);
+	
+	end loop;
+	close c1;
+	dbms_output.put_line('Total venta: '||total_v);
+end;
+/
