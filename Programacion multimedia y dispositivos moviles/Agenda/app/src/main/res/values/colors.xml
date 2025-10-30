@@ -6,4 +6,6 @@
     <color name="backgroundApp">#AFDCE0</color>
     <color name="backgroundButton">#08B4FA</color>
     <color name="colorTextButton">#040404</color>
+    <color name="red">#780404</color>
+    <color name="green">#03950D</color>
 </resources>

@@ -33,7 +33,7 @@
 
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAddContact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,6 +42,14 @@
         android:layout_margin="30dp"
         android:backgroundTint="@color/backgroundButton"
         android:tint="@color/colorTextButton"
-        />
+        />-->
+
+    <Button
+        android:id="@+id/btnCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Revisar"
+        android:layout_gravity="center|bottom"
+        android:layout_marginBottom="40dp"/>
 
 </FrameLayout>
