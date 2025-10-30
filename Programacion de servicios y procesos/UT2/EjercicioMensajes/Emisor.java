@@ -3,6 +3,7 @@ import java.util.concurrent.BlockingQueue;
 
 public class Emisor implements Runnable{
     BlockingQueue<Mensaje> cola;
+    
 
     public Emisor(BlockingQueue<Mensaje> cola) {
         this.cola = cola;

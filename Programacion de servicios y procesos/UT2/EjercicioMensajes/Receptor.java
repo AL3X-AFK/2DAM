@@ -20,6 +20,7 @@ public class Receptor implements Runnable{
                 System.out.println("RECIBIDO " + m.getTipo()+": " + m.getMensaje() + ": " + m.getFecha());
 
             } catch (InterruptedException e) {
+                break;
             }
             
 
