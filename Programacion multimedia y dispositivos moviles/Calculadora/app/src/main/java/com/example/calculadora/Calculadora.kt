@@ -48,7 +48,7 @@ class Calculadora : AppCompatActivity() {
         for (id in operadores){
             findViewById<Button>(id).setOnClickListener { boton->
                 val b = boton as Button
-                operacionActual = b.text.toString()
+                operacionActual = b.text.toString().
                 num1 = tvResult.text.toString().toDouble()
 
                 tvTemp.text = num1.toString() + " " + operacionActual
