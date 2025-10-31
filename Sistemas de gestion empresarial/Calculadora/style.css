@@ -1,0 +1,30 @@
+body{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    flex-direction: column;
+}
+.calc{
+    padding: 20px;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    flex-direction: column;
+    background-color: aqua;
+}
+#text{
+    width: 95%;
+    height: 20px;
+}
+.nums{
+    height: 170px;
+    width: 95%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    
+}
+#igual{
+    grid-column: 2/4;
+}
