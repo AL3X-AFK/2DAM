@@ -111,3 +111,64 @@ Select t.nombre, DEREF(n.cod_asig).nombre as asignatura, n.notas
 from tabla_talumnos t,
 table(t.notas) n
 where t.dni = '12345678A';
+
+
+update table(select t.notas from tabla_talumnos t where t.dni = '12345678A')
+set notas = t_listanotas(8,9,7,9,10)
+where deref(cod_asig).cod_asig = 1;
+update table(select t.notas from tabla_talumnos t where t.dni = '12345678A')
+set notas = t_listanotas(8,9,7,9,10)
+where deref(cod_asig).cod_asig = 2;
+update table(select t.notas from tabla_talumnos t where t.dni = '12345678A')
+set notas = t_listanotas(8,9,7,9,10)
+where deref(cod_asig).cod_asig = 3;
+
+
+
+
+CREATE or replace procedure ver_notas_alumno(p_dni in VARCHAR2) IS
+type tev is table of VARCHAR2(10);
+t_evaluaciones TEV := TEV('1ºEV','2ºEV','3ºEV','FINAL', 'SEPT'); 
+
+cursor c_notas IS
+	Select deref(n.cod_asig).nombre as asignatura,
+		n.notas as lista_notas
+	from tabla_talumnos t, 
+		table(t.notas) n
+	where t.dni = p_dni;
+	
+v_asignatura tabla_tasignaturas.nombre%type;
+v_notas t_listanotas;
+v_nombre tabla_talumnos.nombre%type;
+v_direc tip_direccion2;
+
+BEGIN
+
+	Select nombre, direc
+	into v_nombre, v_direc
+	from tabla_talumnos
+	where dni = p_dni;
+	
+	dbms_output.put_line('DNI: '||p_dni ||'* NOMBRE: '||v_nombre);
+	dbms_output.put_line('DIRECCION: ' ||v_direc.calle );
+	dbms_output.put_line('**********************************');
+	
+
+	open c_notas;
+	LOOP
+		fetch c_notas into v_asignatura, v_notas;
+		exit when c_notas%notfound;
+		dbms_output.put_line('*********'||v_asignatura||'**********');
+		
+		for i in 1 .. v_notas.COUNT loop
+			dbms_output.put_line('   ' || t_evaluaciones(i) || ': ' || v_notas(i));
+		end loop;
+		
+		
+	end loop;
+	
+	close c_notas;
+	
+end;
+/
+EXEC ver_notas_alumno('12345678A');
