@@ -82,4 +82,27 @@ end;
 
 
 create table clientes of tipo_cliente;
-insert into clientes VALUES(1, 'Alex', 'Valdez', direccion('C. Jose, 23);
+insert into clientes VALUES(1, 'Alex', 'Valdez', tipo_direccion('C. Jose, 23', 28026), tipo_contacto(123456789, 'alex@gmail.com'), 0);
+insert into clientes VALUES(2, 'Mayra', 'Veloz', tipo_direccion('C. Almudena, 05', 28026), tipo_contacto(789456123, 'mayra@gmail.com'), 0);
+
+
+
+create table listas_compra of tipo_lista_compra
+NESTED table detalle store as tabla_detalles;
+
+insert into listas_compra 
+SELECT
+01, 
+SYSDATE, 
+ref (c),
+tab_lista_detalle(
+    tipo_lista_detalle(1, tipo_articulo(1, 'PS5', 'Consola', 500, 21), 5),
+    tipo_lista_detalle(2, tipo_articulo(2, 'Mando', 'DualSense', 70, 21), 2)
+  )
+ from clientes c 
+ where c.id = 1;
+/
+
+
+select c.id, c.total_lista_compra()
+from listas_compra c;
