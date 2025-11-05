@@ -14,7 +14,7 @@ h1{
 }
 .calc{
     padding: 20px;
-    width: 50%;
+    width: 400px;
     display: flex;
     justify-content: center;
     align-items: center; 
@@ -25,14 +25,30 @@ h1{
 }
 #text{
     width: 95%;
-    height: 20px;
+    height: 40px;
+    text-align: end;
 }
 .nums{
-    height: 170px;
+    height: 200px;
     width: 95%;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
 }
 #igual{
     grid-column: 2/4;
+}
+input{
+    font-size: 18px;
+}
+
+input[type="button"]{
+    background-color: rgb(255, 255, 255);
+    border: 1px solid black;
+    margin: 2px;
+}
+
+input[type="button"]:hover{
+    background-color: rgb(236, 110, 20);
+    color: white;
+    
 }
