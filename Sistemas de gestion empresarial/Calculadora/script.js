@@ -1,5 +1,35 @@
 let campoDeTexto = document.getElementById("text")
 let igual = document.getElementById("igual")
+
+let botones = document.querySelectorAll("input[type=button]")
+
+let operacion = ""
+
+botones.forEach(boton => {
+    boton.addEventListener("click", ()=>{
+    if (boton.value == '=') {
+        try {
+            campoDeTexto.value = eval(operacion)
+            operacion = campoDeTexto.value
+
+        } catch (error) {
+            campoDeTexto.value = "ERROR"
+            operacion = ""
+        }
+
+    } else if(boton.value == 'C'){
+        campoDeTexto.value = ""
+        operacion = ""
+        
+    }else {
+        operacion += boton.value
+        campoDeTexto.value = operacion
+    }
+    })
+    
+});
+
+/*
 let numeros = document.querySelectorAll(".numero")
 let operadores = document.querySelectorAll(".operador")
 
@@ -32,3 +62,4 @@ operadores.forEach(boton =>{
         campoDeTexto.value = ""
     })
 })
+*/

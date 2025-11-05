@@ -59,7 +59,27 @@ create or replace type tipo_lista_compra as object(
 	id number,
 	fecha DATE,
 	cliente REF tipo_cliente,
-	detalle tab_lista_detalle
+	detalle tab_lista_detalle,
+	MEMBER  function total_lista_compra return number
 );
 /
 
+
+
+create or replace type body tipo_lista_compra as 
+MEMBER function total_lista_compra return number is
+	total NUMBER := 0;
+BEGIN
+	if detalle is not null THEN
+		FOR i in 1 .. detalle.COUNT LOOP
+			total := total + detalle(i).cantidad * (detalle(i).articulo.precio * (1 * detalle(i).articulo.porcentaje_de_iva/100));
+		end LOOP;
+	end if;
+	return total;
+end;
+end;
+/
+
+
+create table clientes of tipo_cliente;
+insert into clientes VALUES(1, 'Alex', 'Valdez', direccion('C. Jose, 23);

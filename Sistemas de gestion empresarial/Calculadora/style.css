@@ -34,9 +34,6 @@ h1{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
 }
-#igual{
-    grid-column: 2/4;
-}
 input{
     font-size: 18px;
 }
