@@ -1,0 +1,65 @@
+create or replace type tipo_direccion as object(
+	direccion VARCHAR2(50),
+	codigo_postal NUMBER
+);
+/
+
+create or replace type tipo_contacto as object(
+	telefono NUMBER,
+	email VARCHAR2(30)
+);
+/
+
+create or replace type tipo_persona as object(
+	id NUMBER,
+	nombre VARCHAR2(20),
+	apellido VARCHAR2(20),
+	direccion tipo_direccion,
+	contacto tipo_contacto
+)not final;
+/
+
+create or replace type tipo_cliente under tipo_persona(
+	numero_de_pedidos NUMBER
+);
+/ 
+
+desc tipo_direccion
+desc tipo_contacto;
+desc tipo_persona;
+desc tipo_cliente;
+
+
+create or replace type tipo_articulo as object(
+	id NUMBER,
+	nombre VARCHAR2(20),
+	descripcion VARCHAR2(20),
+	precio number(7,2),
+	porcentaje_de_iva number(4,2)
+);
+/
+
+create or replace type tipo_tabla_anidada as TABLE of tipo_articulo;
+/
+
+desc tipo_articulo;
+
+
+create or replace type tipo_lista_detalle as object(
+	numero number,
+	articulo tipo_articulo,
+	cantidad number
+);
+/
+
+create or replace type tab_lista_detalle as table of tipo_lista_detalle;
+/
+
+create or replace type tipo_lista_compra as object(
+	id number,
+	fecha DATE,
+	cliente REF tipo_cliente,
+	detalle tab_lista_detalle
+);
+/
+
