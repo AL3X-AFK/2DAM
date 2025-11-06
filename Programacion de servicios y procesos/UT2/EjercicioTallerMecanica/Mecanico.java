@@ -20,10 +20,8 @@ public class Mecanico implements Runnable{
 
     @Override
     public void run() {
-        while (!Thread.currentThread().isInterrupted()) {
-            
-            try {
-                
+        try {
+            while (true) {
                 Reparacion r = cola.take();
 
                 Thread.sleep(r.tiempo*1000);
@@ -37,11 +35,11 @@ public class Mecanico implements Runnable{
                     datos[0] ++;
                     datos[1] += r.precio;
                     mapaMecanico.put(Thread.currentThread().getName(), datos);
-}
+                }
                
-            } catch (InterruptedException e) {
-                System.out.println(Thread.currentThread().getName() + " terminó su jornada");
-            }
+            } 
+        }catch (InterruptedException e) {
+            System.out.println(Thread.currentThread().getName() + " terminó su jornada");
         }
     }
     

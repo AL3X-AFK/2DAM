@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class TallerMecanico {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         //Catalogo de reparaciones
         List<Reparacion> listaReparaciones = new ArrayList<>();
@@ -40,27 +40,50 @@ public class TallerMecanico {
         mecanico1.start();
         mecanico2.start();
 
-        try {
-            Thread.sleep(10000);
+       try {
+            Thread.sleep(5000);
+            cliente1.interrupt();
+            cliente2.interrupt();
         } catch (InterruptedException e) {
         }
 
-        cliente1.interrupt();
-        cliente2.interrupt();
+        cliente1.join();
+        cliente2.join();
+        try {
+            Thread.sleep(10000);
+        } catch (Exception e) {
+        }
+
         mecanico1.interrupt();
         mecanico2.interrupt();
 
         try {
-            cliente1.join();
-            cliente2.join();
             mecanico1.join();
             mecanico2.join();
         } catch (InterruptedException e) {
         }
 
-        System.out.println(mapaMecanico);
+        System.out.println("\n------- RESUMEN INDIVIDUAL -------");
+        int totalTrabajos = 0;;
+        Double facturacionTotal = 0.0;
 
-        System.out.println("\n\nSimulacion detenida");
+        synchronized (mapaMecanico) {
+            for (var entry : mapaMecanico.entrySet()) {
+                String nombre = entry.getKey();
+                Double[] datos = entry.getValue();
+                totalTrabajos += datos[0];
+                facturacionTotal += datos[1];
+                System.out.println(nombre + " -> + Trabajos: " + datos[0].intValue() + " | Recaudacion: " + datos[1] + "$");
+            }
+
+            System.out.println("\n ---- RESUMEN DEL DÍA -----------");
+            System.out.println("   Trabajos realizados: "+ totalTrabajos);
+            System.out.println("   Facturación total: " + facturacionTotal + " $");
+            System.out.println("  ----- Fin de la simulación. -----");
+        }
+
+        
+
 
     }
 }

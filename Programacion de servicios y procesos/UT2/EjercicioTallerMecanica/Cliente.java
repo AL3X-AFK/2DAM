@@ -21,7 +21,7 @@ public class Cliente implements Runnable{
             try {
                 int cantidadReparaiones = generarNumero();
 
-                synchronized (cola) {
+                
                 System.out.println(Thread.currentThread().getName() + " llega al taller con " + cantidadReparaiones+" reparaciones.");
 
                     for (int i = 0; i < cantidadReparaiones; i++) {
@@ -31,11 +31,11 @@ public class Cliente implements Runnable{
                         
                         cola.put(r);
                 }
-                }
+                
                 
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                break;
+                return;
             }
         }
     }
