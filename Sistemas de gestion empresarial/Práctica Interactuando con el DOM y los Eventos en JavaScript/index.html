@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos y DOM en JavaScript</title>
+    <style>
+    body {
+      font-family: Calibri, sans-serif;
+      margin: 20px;
+      background-color: #f4f4f9;
+    }
+    h1, h2 {
+      color: #003366;
+    }
+    section {
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    button {
+      margin: 5px;
+      padding: 8px 12px;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background-color: #0078D7;
+      color: white;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+    input {
+      padding: 5px;
+      margin: 5px;
+    }
+    .tachado {
+      text-decoration: line-through;
+      color: gray;
+    }
+  </style>
+
+</head>
+<body>
+    <h1>Interactuando con el DOM y los Eventos</h1>
+  <p>Completa los siguientes ejercicios para practicar la manipulación del DOM y el uso de eventos en JavaScript.</p>
+
+  <section>
+    <h2>Ejercicio 1: Cambiar el color del fondo</h2>
+    <button id="rojo">Rojo</button>
+    <button id="verde">Verde</button>
+    <button id="azul">Azul</button>
+    <button id="blanco">Restaurar color</button>
+  </section>
+
+  <section>
+    <h2>Ejercicio 2: Mostrar texto al escribir</h2>
+    <input type="text" id="nombre" placeholder="Escribe tu nombre">
+    <p id="saludo"></p>
+  </section>
+
+  <section>
+    <h2>Ejercicio 3: Lista interactiva</h2>
+    <input type="text" id="nuevoElemento" placeholder="Nuevo elemento">
+    <button id="añadir">Añadir</button>
+    <ul id="lista"></ul>
+  </section>
+
+  <section>
+    <h2>Ejercicio 4: Contador de clicks</h2>
+    <button id="contador">Haz click</button>
+    <p id="resultado">Has hecho click 0 veces.</p>
+  </section>
+
+  <section>
+	<h2>Ejercicio 5: Calculadora de edad</h2>
+		<input type="number" id="anioNacimiento" placeholder="Año de nacimiento">
+		<button id="calcularEdad">Calcular edad</button>
+		<p id="resultadoEdad"></p>
+  </section>
+  <section>
+	<h2>Ejercicio 6: Juego de adivinar el número</h2>
+	<p>He pensado un número del 1 al 10. ¿Puedes adivinarlo?</p>
+	<input type="number" id="numeroUsuario" placeholder="Tu número">
+	<button id="comprobar">Comprobar</button>
+	<p id="mensaje"></p>
+  </section>
+  
+  <section>
+	<h2>Ejercicio 7: Mini aplicación de tareas</h2>
+	<p id ="seccion"></p>
+  </section>
+
+  <script src="VAlex.js"></script>
+
+</body>
+</html>
