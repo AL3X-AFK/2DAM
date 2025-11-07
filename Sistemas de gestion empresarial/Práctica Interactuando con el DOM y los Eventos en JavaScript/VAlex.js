@@ -114,4 +114,5 @@ addTarea.addEventListener("click", () => {
 
 dropAll.addEventListener("click", () => {
     listaTareas.innerHTML = ""
+    textTarea.value=""
 })
