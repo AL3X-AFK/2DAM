@@ -98,7 +98,7 @@ let dropAll = document.createElement("button")
 dropAll.textContent = "Borrar Todo"
 dropAll.style.backgroundColor="#0078D7"
 
-let listaTareas = document.getElementById("listaTareas")
+let listaTareas = document.createElement("ul")
 
 seccion.appendChild(textTarea)
 seccion.appendChild(addTarea)
@@ -108,11 +108,20 @@ seccion.appendChild(listaTareas)
 addTarea.addEventListener("click", () => {
     let tarea = document.createElement("li")
     tarea.textContent = textTarea.value
+
+    tarea.addEventListener("click", () => {
+        tarea.style.textDecoration = "line-through"
+    })
+
     listaTareas.appendChild(tarea)
     textTarea.value=""
+    
 })
+
+
 
 dropAll.addEventListener("click", () => {
     listaTareas.innerHTML = ""
     textTarea.value=""
 })
+
