@@ -58,7 +58,7 @@ def mostrarMenuLoggin(cuentas):
 def mostrarMenu(cuentas,cuentaBancaria):
     print(cuentas)
     while True:
-        opcion = int(input(f"Menu para {cuentas[cuentaBancaria]["titular"]}\n1. Ingresar dinero\n2. Retirar dinero\n3. Ver saldo\n4. Salir\n"))
+        opcion = int(input(f"Menu para {cuentas[cuentaBancaria]["titular"]}\n1. Ingresar dinero\n2. Retirar dinero\n3. Ver saldo\n4. Realizar transferencia\n5. Pedir préstamo\n6. Ver historial\n7. Salir\n"))
         match opcion:
             case 1:
                ingresarDinero(cuentas, cuentaBancaria)
@@ -67,7 +67,13 @@ def mostrarMenu(cuentas,cuentaBancaria):
             case 3:
                 verSaldo(cuentas, cuentaBancaria)
             case 4:
-                break
+                realizarTransferencia(cuentas, cuentaBancaria)
+            case 5:
+                pedirPrestamo(cuentas, cuentaBancaria)
+            case 6:
+                verHistorial(cuentas, cuentaBancaria)
+            case 7:
+                salir()
             case _:
                 print("Introduce una opcion correcta.")
 
@@ -111,13 +117,44 @@ def retirarDinero(cuentas, cuentaBancaria):
 def verSaldo(cuentas, cuentaBancaria):
     print("Tu saldo actual es de: $",cuentas[cuentaBancaria]["saldo"])
 
-def realizarTransferencia():
-    pass
-    
-def pedirPrestamo():
-    pass
+def realizarTransferencia(cuentas, cuentaBancaria):
+    while True:
+        cuentaDestino = input("Introduce el número de cuenta destino: ")
+        if cuentaDestino not in cuentas:
+            print("La cuenta destino no existe.")
+            continue
+        try:
+            cantidad = float(input("Introduce la cantidad a transferir: "))
+            if cantidad <= 0:
+                print("La cantidad debe ser positiva.")
+                continue
+            if cantidad > cuentas[cuentaBancaria]["saldo"]:
+                print("No tienes suficiente saldo.")
+                continue
+        except ValueError:
+            print("Introduce un valor válido.")
+        else:
+            cuentas[cuentaBancaria]["saldo"] -= cantidad
+            cuentas[cuentaDestino]["saldo"] += cantidad
+            print("Transferencia realizada con éxito.")
+            break
 
-def verHistorial():
+
+def pedirPrestamo(cuentas, cuentaBancaria):
+    while True:
+        try:
+            cantidad = float(input("Introduce la cantidad del préstamo: "))
+            if cantidad <= 0:
+                print("La cantidad debe ser positiva.")
+                continue
+        except ValueError:
+            print("Introduce un valor válido.")
+        else:
+            cuentas[cuentaBancaria]["saldo"] += cantidad
+            print("Préstamo concedido.")
+            break
+
+def verHistorial(cuentas, cuentaBancaria):
     pass
 
 def salir():
