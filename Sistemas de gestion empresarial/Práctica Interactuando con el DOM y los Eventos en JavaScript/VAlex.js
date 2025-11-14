@@ -118,7 +118,7 @@ addTarea.addEventListener("click", () => {
     })
 
     listaTareas.appendChild(tarea)
-    textTarea.value=""
+    textTarea.value = ""
     
 })
 dropAll.addEventListener("click", () => {

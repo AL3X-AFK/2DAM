@@ -29,7 +29,7 @@ public class Barbero implements Runnable{
                     System.out.println("El barbero termina con el cliente " + c.id);
                     
                     synchronized(c) {
-                        c.notifyAll(); // Notificar al cliente que terminó
+                        c.notifyAll(); // Notificar al cliente que termino
                     }
                 } else if (abierto) {
                     // No hay clientes
