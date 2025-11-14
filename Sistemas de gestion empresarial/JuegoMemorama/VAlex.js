@@ -1,4 +1,5 @@
 const tablero = document.getElementById("id_tablero");
+let cartasVolteadas = [];
 const cartas = [
   "🐶",
   "🐱",
@@ -43,11 +44,21 @@ function voltearCarta(carta) {
     }
 }
 
-function comprobarPares(carta1, carta2) {
-    if (carta1.value == carta2.value) {
-        
-    }
+function comprobarPares(carta1, carta2){
+  if (carta1.textContent == carta2.textContent) {
+    console.log(carta1.textContent + carta2.textContent)
+    cartasVolteadas = [];
+  } else{
+    console.log(carta1.textContent + carta2.textContent)
+    setTimeout(()=>{
+      voltearCarta(carta1)
+      voltearCarta(carta2)
+      cartasVolteadas=[];
+    },800)
+    
+  }
 }
+
 
 function iniciarTablero() {
   mezclarCartas(cartas);
@@ -55,8 +66,17 @@ function iniciarTablero() {
     const carta = crearCarta(emoji, index);
     tablero.appendChild(carta);
 
+    
     carta.addEventListener("click", ()=>{
-        voltearCarta(carta)
+        
+        if (cartasVolteadas.length <2 ) {
+          voltearCarta(carta)
+          cartasVolteadas.push(carta)
+        }
+        if (cartasVolteadas.length == 2) {
+          comprobarPares(cartasVolteadas[0], cartasVolteadas[1]);
+        }
+        
     })
   });
 }
