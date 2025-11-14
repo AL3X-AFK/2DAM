@@ -1,4 +1,4 @@
-package com.example.appcompose
+package com.example.compose
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -11,15 +11,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.appcompose.ui.theme.AppComposeTheme
+import com.example.compose.ui.theme.ComposeTheme
 
-class MainActivity : ComponentActivity() {
+class Calculadora : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        
         setContent {
 
+            
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    ComposeTheme {
+        Greeting("Android")
     }
 }
