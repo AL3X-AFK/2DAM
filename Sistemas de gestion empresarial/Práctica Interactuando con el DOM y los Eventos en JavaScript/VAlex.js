@@ -87,13 +87,17 @@ comprobar.addEventListener("click", () =>{
 })
 
 //Ejercicio 7
-let seccion = document.getElementById("seccion")
+let todosLosP = document.getElementsByTagName("p")
+let seccion = todosLosP[todosLosP.length-1]
+
 let textTarea = document.createElement("input")
 textTarea.type = "text"
 textTarea.placeholder="Añade una tarea"
+
 let addTarea = document.createElement("button")
 addTarea.textContent = "Añadir Tarea"
 addTarea.style.backgroundColor="#0078D7"
+
 let dropAll = document.createElement("button")
 dropAll.textContent = "Borrar Todo"
 dropAll.style.backgroundColor="#0078D7"
@@ -109,7 +113,7 @@ addTarea.addEventListener("click", () => {
     let tarea = document.createElement("li")
     tarea.textContent = textTarea.value
 
-    tarea.addEventListener("click", () => {
+    tarea.addEventListener("dblclick", () => {
         tarea.style.textDecoration = "line-through"
     })
 
@@ -117,9 +121,6 @@ addTarea.addEventListener("click", () => {
     textTarea.value=""
     
 })
-
-
-
 dropAll.addEventListener("click", () => {
     listaTareas.innerHTML = ""
     textTarea.value=""
