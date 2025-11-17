@@ -1,5 +1,6 @@
 const tablero = document.getElementById("id_tablero");
 let cartasVolteadas = [];
+let paresAcertados = [];
 const cartas = [
   "🐶",
   "🐱",
@@ -48,6 +49,8 @@ function comprobarPares(carta1, carta2){
   if (carta1.textContent == carta2.textContent) {
     console.log(carta1.textContent + carta2.textContent)
     cartasVolteadas = [];
+    paresAcertados.push("x");
+    comprobarFinDelJuego(paresAcertados);
   } else{
     console.log(carta1.textContent + carta2.textContent)
     setTimeout(()=>{
@@ -59,6 +62,11 @@ function comprobarPares(carta1, carta2){
   }
 }
 
+function comprobarFinDelJuego(paresAcertados){
+  if (paresAcertados.length == cartas.length/2) {
+    alert("Has ganado")
+  }
+}
 
 function iniciarTablero() {
   mezclarCartas(cartas);

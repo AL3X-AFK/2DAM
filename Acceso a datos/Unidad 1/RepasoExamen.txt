@@ -1,0 +1,76 @@
+--1------
+alter type pedido_t replace as object(
+	ordnum number,
+	dliente ref cliente_t,
+	fechapedido date,
+	fechaentrega date,
+	pedido lineas_pedido_t,
+	direccionentrega dirrecion_t,
+	MEMBER FUNCTION coste_total return number
+);
+/
+
+create type body pedido_t as
+MEMBER FUNCTION coste_total return number IS
+line_cost number;
+total number := 0;
+v_item item_t; --Guarda el elemento t
+BEGIN
+	for i in 1 .. self.pedido.COUNT LOOP
+		v_item := DEREF(self.pedido(i).item);
+		line_cost := v_item.precio*self.pedido(i).cantidad *(1-self.pedido(i).descuento/100);
+		total:= total + line_cost;
+	end loop;
+	
+	return total;
+end;
+end;
+/
+
+--2----------
+BEGIN
+	for i in (SELECT * from agenda) loop
+		dbms_output.put_line(i.nombre || ', Numero de telefonos: '||i.telef.COUNT);
+		for j in 1.. i.telef.count loop
+			dbms_output.put_line('*'||i.telef(j)||'*');
+		end loop;
+	end loop;
+end;
+/
+
+
+
+create or replace procedure insertar_datos(
+p_nombre in VARCHAR2,
+p_tel in telefono
+) as
+BEGIN
+	insert into agenda(nombre, telef) values (p_nombre, p_tel);
+end;
+/
+
+-- Llamada al procedimiento para insertar otra persona
+BEGIN
+  insertar_datos('JUAN', TELEFONO('699999999', '688888888'));
+END;
+/
+
+
+create or replace function obtener_primer_telefono(
+	nombre_agencia in VARCHAR2
+) return VARCHAR2 is v_telefono TELEFONO;
+BEGIN
+	select telef into v_telefono from agenda where nombre = nombre_agencia;
+	return v_telefono(1);
+end;
+/
+-- Uso con bloque
+DECLARE
+tel VARCHAR2(9);
+BEGIN
+	tel := obtener_primer_telefono('MARTA');
+	dbms_output.put_line('Primer telefono: '||tel);
+end;
+/
+
+
