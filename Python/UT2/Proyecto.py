@@ -116,6 +116,11 @@ def ingresarDinero(cuentas, cuentaBancaria,historial):
             historial[cuentas[cuentaBancaria]["titular"]].append(crearAccion(f"Ingreso de $ {saldoAIngresar}."))
             break
 
+
+'''
+Permite al usuario retinar dinero de su cuenta e ingresar la accion al historial
+EL usuario debe ingresar la cantidad que desea retirar, si la cantidad es mayor al saldo o tiene algun simbolo diferente se mostrara un mensaje de error
+'''
 def retirarDinero(cuentas, cuentaBancaria,historial):
     while True:
         try:
@@ -139,12 +144,22 @@ def retirarDinero(cuentas, cuentaBancaria,historial):
             break
 
 
+#Accede al usuario de cuentaBancaria y muestra su saldo
 def verSaldo(cuentas, cuentaBancaria):
     print("💰 Tu saldo actual es de: $",cuentas[cuentaBancaria]["saldo"])
 
+
+#Accede al usuario de cuentaBancaria y muestra su informacion personal
 def verInfoPersonal(cuentas,cuentaBancaria):
     print(f"\n💳 Número de cuenta bancaria: {cuentaBancaria}\n👤 Nombre de usuario: {cuentas[cuentaBancaria]['titular']}\n🔒 Contraseña: {cuentas[cuentaBancaria]['password']}\n💰 Saldo disponible: $ {cuentas[cuentaBancaria]["saldo"]}")
 
+
+
+'''
+Permite que un usuario transfiera dinero desde su cuenta a otra cuenta bancaria registrada, registrando la operación en ambos historiales
+Solicita la cuenta bancaria dstinataria y el monto a transferir, si hay error en algun apartado la operacion se cancela mostrando el mensaje de error
+Si no existe ningun error, el monto se tranfeerira de cuenta y se guarda el registro en el hsitorial de ambas cuentas
+'''
 def realizarTransferencia(cuentas,cuentaBancaria,historial):
     while True:
         try:
@@ -177,6 +192,11 @@ def realizarTransferencia(cuentas,cuentaBancaria,historial):
             print("❌ ¡Fallo en la transferencia! Usuario no encontrado.")
             break
 
+
+'''
+Permite al usuario solicitar un prestamo y guardar la accion en el historial
+Pide una cantidad, suma el monto al saldo de la cuenta y lo guarda en el registro, mostrando mensaje de error en caso de que existiese
+'''
 def pedirPrestamo(cuentas, cuentaBancaria,historial):
     while True:
         try:
@@ -192,13 +212,18 @@ def pedirPrestamo(cuentas, cuentaBancaria,historial):
             historial[cuentas[cuentaBancaria]["titular"]].append(crearAccion(f"Te han aceptado un préstamo de $ {cantidad}."))
             break
 
+
+#Muestra todas las operaciones que ha realizado un titular accediendo al mapa y usando como clave a titular
 def verHistorial(titular,historial):
     print(f"Historial de {titular}")
     for accion in historial[titular]:
         print(f"  - [ {accion["fecha"]} ] {accion["msg"]}")
 
+
+#Crea un registro de accion para guardarlo en el historial
 def crearAccion(msg):
     return {"msg":msg,
             "fecha":datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+
 
 iniciarSimulacion()
