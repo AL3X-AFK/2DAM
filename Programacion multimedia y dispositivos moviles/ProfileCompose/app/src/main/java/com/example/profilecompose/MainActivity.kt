@@ -1,7 +1,6 @@
-package com.example.compose
+package com.example.profilecompose
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,31 +8,23 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
-import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.example.profilecompose.ui.theme.ProfileComposeTheme
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -46,16 +37,14 @@ class MainActivity : ComponentActivity() {
                 content = { app() }
             )
         }
-
-
     }
 }
 
 @Composable
 fun topBar() {
     LazyRow {
-        item {
-            Text("Aplicacion")
+        item{
+            Text("Profile Compose")
         }
     }
 }
@@ -63,52 +52,22 @@ fun topBar() {
 @Preview(showBackground = true)
 @Composable
 fun app() {
-    var name by remember { mutableStateOf("") }
-    var txtname by remember { mutableStateOf("") }
     var counter_likes by rememberSaveable { mutableStateOf(0) }
 
-    val context = LocalContext.current
+    LazyColumn(Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally) {
 
-
-    LazyColumn(Modifier.padding(horizontal = 8.dp)) {
-        item {
-
+        item{
             Image(
-                painterResource(R.drawable.ds3),
-                contentDescription = "Imagen",
-                Modifier.fillMaxWidth()
+                painterResource(R.drawable.user),
+                "Icono de usuario",
+                
+                Modifier.padding(top = 50.dp)
             )
-
-            OutlinedTextField(
-                value = txtname,
-                onValueChange = { txtname = it },
-                label = { "Nombre" },
-                singleLine = true
-            )
-
-            Button(onClick = {
-                name = txtname
-            }) { Text("Pulsar") }
-
-            Text(
-                "Hola mundo",
-                fontSize = 20.sp,
-                modifier = Modifier
-                    .padding(12.dp)
-                    .layoutId("nameText")
-                    .wrapContentSize(Alignment.Center)
-
-            )
-            Text(
-                name,
-                fontSize = 20.sp,
-                modifier = Modifier
-                    .padding(12.dp)
-                    .layoutId("nameText")
-            )
+            Text("Alex Valdez")
 
             LazyRow {
-                item {
+                item{
                     Image(
                         painterResource(R.drawable.icon_heart),
                         contentDescription = "Icono de corazon",
@@ -123,23 +82,9 @@ fun app() {
                     )
                 }
             }
-
-
-
-            LazyRow {
-                item {
-                    Text("Actividad de calculadora")
-                    Button(
-                        onClick = {
-                            context.startActivity(Intent(context, Calculadora::class.java))
-                        }
-                    ) {
-                        Text("Calculadora")
-                    }
-                }
-            }
-
         }
+
+
     }
 
 }
