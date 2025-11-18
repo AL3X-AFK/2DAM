@@ -74,3 +74,33 @@ end;
 /
 
 
+
+
+
+
+CREATE OR REPLACE FUNCTION obtener_primer_telefono(
+	nombre_agencia in VARCHAR2
+) RETURN VARCHAR2 IS
+	v_telefono TELEFONO;
+BEGIN
+	-- Intenta seleccionar el teléfono
+	SELECT telef INTO v_telefono
+	FROM agenda
+	WHERE nombre = nombre_agencia;
+
+	-- Si se encuentra, devuelve el primer elemento
+	RETURN v_telefono(1);
+
+-- Bloque de manejo de excepciones
+EXCEPTION
+	WHEN NO_DATA_FOUND THEN
+		-- Maneja el caso en que no se encuentra ninguna fila con ese nombre
+		-- Puedes devolver NULL, un mensaje de error o un valor por defecto
+		RETURN NULL; -- Devolvemos NULL si no se encuentra la agencia
+	WHEN OTHERS THEN
+		-- Maneja cualquier otra excepción inesperada
+		-- Es buena práctica loguear o manejar otros errores si es necesario
+		RAISE; -- Re-lanza la excepción para que sea manejada por el llamador
+END;
+/
+
