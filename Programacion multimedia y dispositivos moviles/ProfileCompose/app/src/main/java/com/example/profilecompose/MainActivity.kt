@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -32,10 +33,13 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            Scaffold(
-                topBar = { topBar() },
-                content = { app() }
-            )
+            NavigationWrapper()
+//            Scaffold(
+//                modifier = Modifer
+//                    .background(R.color.purple_200),
+//                topBar = { topBar() },
+//                content = { app() }
+//            )
         }
     }
 }
