@@ -11,17 +11,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun DetailScreen(navigateToProfile: () -> Unit){
+fun DetailScreen(name: String, navigateToLogin: () -> Unit){
 
     Column(modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         Spacer(modifier = Modifier.weight(1f))
-        Text(text = "Login screen", fontSize = 20.sp)
+        Text(text = "$name Detail screen", fontSize = 20.sp)
         Spacer(modifier = Modifier.weight(1f))
-        Button(onClick = {navigateToProfile()}) {
-            Text(text = "Ir al perfil")
+        Button(onClick = {navigateToLogin()}) {
+            Text(text = "Volver atras")
         }
         Spacer(modifier = Modifier.weight(1f))
 

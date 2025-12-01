@@ -6,10 +6,13 @@ import kotlinx.serialization.Serializable
 object Login
 
 @Serializable
-data class Searcher (val name: String)
+data class User(val username: String, val password: String)
 
 @Serializable
-object Profile
+object Searcher
+
+@Serializable
+data class Profile (val name: String)
 
 @Serializable
 data class Detail(val name: String)

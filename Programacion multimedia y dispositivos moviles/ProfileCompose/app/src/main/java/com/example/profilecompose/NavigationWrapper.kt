@@ -1,7 +1,7 @@
 package com.example.profilecompose
 
+import android.R.attr.name
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHost
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -16,17 +16,20 @@ fun NavigationWrapper(){
             LoginScreen{ navController.navigate(Searcher) }
         }
         composable<Searcher> {
-            SearcherScreen{ name -> navController.navigate(Detail()) }
+            SearcherScreen {name -> navController.navigate(Profile(name=name)) }
         }
 
         composable<Profile> {backStackEntry ->
-            val searcher:Searcher = backStackEntry.toRoute()
-
-            ProfileScreen{ navController.navigate(Detail) }
+            val profile:Profile = backStackEntry.toRoute()
+            ProfileScreen(profile.name){name ->
+                navController.navigate(Detail(name = name))
+            }
         }
 
-        composable<Detail> {
-            DetailScreen{}
+        composable<Detail> { backStackEntry ->
+            val detail: Detail = backStackEntry.toRoute()
+            DetailScreen(detail.name){navController.navigateUp()}
         }
     }
 }
+

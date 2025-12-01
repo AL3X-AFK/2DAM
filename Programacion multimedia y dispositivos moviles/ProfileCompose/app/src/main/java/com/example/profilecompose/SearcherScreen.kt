@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun SearcherScreen(name:String, navigateToProfile: () -> Unit){
+fun SearcherScreen(navigateToProfile: (String) -> Unit){
     var text by remember { mutableStateOf("") }
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -24,10 +24,10 @@ fun SearcherScreen(name:String, navigateToProfile: () -> Unit){
     ) {
 
         Spacer(modifier = Modifier.weight(1f))
-        Text(text = "$name screen", fontSize = 20.sp)
+        Text(text = "Buscador screen", fontSize = 20.sp)
         Spacer(modifier = Modifier.weight(1f))
         TextField(value = text, onValueChange = {text=it})
-        Button(onClick = {navigateToProfile()}) {
+        Button(onClick = {navigateToProfile(text)}) {
             Text(text = "Buscar perfil")
         }
         Spacer(modifier = Modifier.weight(1f))
