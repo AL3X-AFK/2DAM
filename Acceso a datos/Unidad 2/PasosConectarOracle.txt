@@ -1,0 +1,21 @@
+----CREAR EL USUARIO----
+connect system/system
+create user dam2d identified by dam2d;
+grant dba to dam2d;
+exit;
+
+connect dam2d/dam2d
+@C:\scripts\bd_emp 
+commit;
+
+
+----ABRIR NETBEANS----
+
+Service/Batabase/Driver/Oraclethin/connect using
+user: dam2d 
+password: dam2d
+borrar hasta xe
+finish
+
+
+En cada proyecto: Libraries/AddJarFolder/Ojdbc7
