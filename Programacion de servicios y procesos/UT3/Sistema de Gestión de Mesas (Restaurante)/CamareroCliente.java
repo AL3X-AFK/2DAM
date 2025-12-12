@@ -39,25 +39,25 @@ public class CamareroCliente {
                 int opcion = scanner.nextInt();
                 String ordenEnvio = "";
                 switch (opcion) {
-                    case 1: //Sentar
+                    case 1 -> {
+                        //Sentar
                         System.out.println("Cuantos comensales?");
                         int comensales = scanner.nextInt();
                         scanner.nextLine();
                         ordenEnvio = "SENTAR;" + comensales;
-                        break;
+                    }
 
-                    case 2: //Levantar
+                    case 2 -> {
+                        //Levantar
                         System.out.println("Que mesa se levanta?");
                         int numeroMesa = scanner.nextInt();
                         scanner.nextLine();
                         ordenEnvio = "LEVANTAR;" + numeroMesa;
-                        break; 
+                    } 
 
-                    case 3://Salir
+                    case 3 -> //Salir
                         ejecutando = false;
-                        break;
-                    default:
-                        System.out.println("Opcion no valida");
+                    default -> System.out.println("Opcion no valida");
                 }
 
                 if (!ordenEnvio.isEmpty()) {
