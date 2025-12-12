@@ -29,24 +29,7 @@ public class Cliente {
             //Para leer la entrada del usuario por consola
             Scanner scanner = new Scanner(System.in);
         ){
-            System.out.println("Conectado al servidor en " + IP_SERVIDOR + ": " + PUERTO);
-
-            String mensajeUsuario;
-            String respuestaServidor;
-
-            //3- Logica de comunciacion (envio y recepcion)
-            do{
-                System.out.println("Ingrese el mensaje (o FIN para terminar): ");
-                mensajeUsuario = scanner.nextLine();
-
-                //Enviar mensaje al servidor
-                salida.println(mensajeUsuario);
-
-                //Recibir la respuesta del servidor
-                respuestaServidor = entrada.readLine();
-                System.out.println("Servidor dice: " + respuestaServidor);
-
-            } while(!mensajeUsuario.equalsIgnoreCase("FIN"));
+            System.out.println(nombreCliente + " se ha conectado al servidor en " + ": " + PUERTO);
 
         } catch (UnknownHostException e) {
             System.out.println("Host desconocido: " + nombreCliente);

@@ -1,7 +1,9 @@
 package com.example.profilecompose
 
 import android.R.attr.name
+import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -9,6 +11,12 @@ import androidx.navigation.toRoute
 
 @Composable
 fun NavigationWrapper(){
+    Log.i("ANTES", "Se crea la BBDD")
+    val context = LocalContext.current
+    val db = DBHelper(context, null)
+    db.addUser()
+
+
     val navController = rememberNavController()
 
     NavHost(navController  = navController, startDestination=Login) {
