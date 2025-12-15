@@ -8,8 +8,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.Scaffold
@@ -43,51 +46,62 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Preview
 @Composable
 fun topBar() {
     LazyRow {
-        item{
-            Text("Profile Compose")
+        item {
+            Text(
+                text = "App Profile"
+            )
         }
     }
 }
 
+@SuppressLint("ResourceAsColor")
 @Preview(showBackground = true)
 @Composable
-fun app() {
+fun content() {
     var counter_likes by rememberSaveable { mutableStateOf(0) }
 
-    LazyColumn(Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally) {
+    LazyColumn(
+        modifier = Modifier
+            .padding(horizontal = 8.dp),
 
-        item{
+        ) {
+        item {
             Image(
-                painterResource(R.drawable.user),
-                "Icono de usuario",
-                
-                Modifier.padding(top = 50.dp)
+                painter = painterResource(R.drawable.user),
+                contentDescription = "Profile",
+                modifier = Modifier.fillMaxWidth()
             )
-            Text("Alex Valdez")
 
-            LazyRow {
-                item{
-                    Image(
-                        painterResource(R.drawable.icon_heart),
-                        contentDescription = "Icono de corazon",
-                        Modifier.clickable(
-                            true, onClick =
-                                { counter_likes++ }
-                        )
+            Row {
+
+                Text(
+                    text = "Fernando Profile",
+                    color = Color(R.color.white),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 18.dp)
+                        .wrapContentSize(Alignment.Center)
+
+                )
+
+                Image(
+                    painterResource(R.drawable.icon_heart),
+                    contentDescription = "likes",
+                    Modifier.clickable {
+                        counter_likes++
+                    }
+                )
+                Text(
+                    text = counter_likes.toString(),
+
                     )
 
-                    Text(
-                        "$counter_likes Likes"
-                    )
-                }
             }
         }
-
-
     }
 
 }

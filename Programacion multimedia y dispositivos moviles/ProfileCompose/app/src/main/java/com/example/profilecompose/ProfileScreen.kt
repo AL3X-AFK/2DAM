@@ -11,19 +11,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ProfileScreen(name: String, navigateToDetails: (String) -> Unit){
-
-    Column(modifier = Modifier.fillMaxSize(),
+fun ProfileScreen(name:String, navigateToDetails: () -> Unit){
+    Column(
+        modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         Spacer(modifier = Modifier.weight(1f))
-        Text(text = "$name Profile screen", fontSize = 20.sp)
+        Text(text="$name Profile screen", fontSize=20.sp)
         Spacer(modifier = Modifier.weight(1f))
-        Button(onClick = {navigateToDetails(name)}) {
-            Text(text = "Ir a los detalles")
+        Button (onClick={ navigateToDetails() }){
+            Text("show Details $name")
         }
         Spacer(modifier = Modifier.weight(1f))
-
     }
 }

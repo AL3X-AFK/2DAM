@@ -4,7 +4,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import androidx.compose.material3.Text
 
 class DBHelper(
     context: Context,
@@ -38,7 +37,7 @@ class DBHelper(
         }
     }
 
-    fun isThereAnyone(name: String, password: String): Boolean {
+    fun isThereAnyone(name: String?, password: String?): Boolean {
         return readableDatabase.rawQuery(
             "SELECT * FROM $TABLE_NAME WHERE $NAME_COL = ? AND $PASSWORD_COL = ?",
             arrayOf(name, password)

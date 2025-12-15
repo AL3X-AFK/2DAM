@@ -22,15 +22,13 @@ fun SearcherScreen(navigateToProfile: (String) -> Unit){
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         Spacer(modifier = Modifier.weight(1f))
-        Text(text = "Buscador screen", fontSize = 20.sp)
+        Text(text="buscador screen", fontSize=20.sp)
         Spacer(modifier = Modifier.weight(1f))
-        TextField(value = text, onValueChange = {text=it})
-        Button(onClick = {navigateToProfile(text)}) {
-            Text(text = "Buscar perfil")
+        TextField(value=text, onValueChange = {text=it})
+        Button (onClick={ navigateToProfile(text) }){
+            Text("buscar perfil")
         }
         Spacer(modifier = Modifier.weight(1f))
-
     }
 }

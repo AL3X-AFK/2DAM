@@ -1,6 +1,5 @@
 package com.example.profilecompose
 
-import android.R.attr.name
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
@@ -11,6 +10,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.toRoute
 import com.example.profilecompose.dataBase.DBHelper
+import androidx.compose.runtime.LaunchedEffect
+
 
 @Composable
 fun NavigationWrapper(){
@@ -21,27 +22,27 @@ fun NavigationWrapper(){
 
 
     val navController = rememberNavController()
-    NavHost(navController  = navController, startDestination=NavRoutes.LOGIN) {
-        composable(NavRoutes.LOGIN) {
-            LoginScreen(
-                navigateToCheckAccess = { username, password ->
-                    navController.navigate("check_access/$username/$password")
-                }
-            )
+    NavHost(navController, startDestination = "login") {
+
+        composable("login") {
+            LoginScreen { username, password ->
+                navController.navigate("check_access/$username/$password")
+            }
         }
 
         composable(
-            route = NavRoutes.CHECK_ACCESS_WITH_ARGS,
-            arguments = ListOf(
-                navArgument("username"){type = NavType.StringType},
-                navArgument("password"){type = NavType.StringType}
+            "check_access/{username}/{password}",
+            arguments = listOf(
+                navArgument("username") { type = NavType.StringType },
+                navArgument("password") { type = NavType.StringType }
             )
-        ){ backEntry ->
-            LaunchedEffect (key1 = Unit){
-                val existe = db.isThereAnyone(username, password)
-                if(existe){
-                    navController.navigate(NavRoutes.SEARCHER){
-                        popUpTo(NavRoutes.LOGIN){ inclusice = false }
+        ) { backEntry ->
+            val username = backEntry.arguments?.getString("username")
+            val password = backEntry.arguments?.getString("password")
+            LaunchedEffect(Unit) {
+                if (db.isThereAnyone(username, password)) {
+                    navController.navigate("searcher") {
+                        popUpTo("login") { inclusive = true }
                     }
                 } else {
                     navController.navigateUp()
@@ -49,20 +50,30 @@ fun NavigationWrapper(){
             }
         }
 
-        composable(NavRoutes.SEARCHER){
-            SearcherScreen { name -> navController.navigate(Profile(name = name)) }
-        }
-
-
-        composable<Profile> {backStackEntry ->
-            val profile:Profile = backStackEntry.toRoute()
-            ProfileScreen(profile.name){navController.navigate(Detail(name = profile.name))
+        composable("searcher") {
+            CheckAccess(username = null, password = null) { name ->
+                navController.navigate("profile/$name")
             }
         }
 
-        composable<Detail> { backStackEntry ->
-            val detail: Detail = backStackEntry.toRoute()
-            DetailScreen(detail.name){navController.navigateUp()}
+        composable(
+            "profile/{name}",
+            arguments = listOf(navArgument("name") { type = NavType.StringType })
+        ) { backEntry ->
+            val name = backEntry.arguments?.getString("name") ?: ""
+            ProfileScreen(name) {
+                navController.navigate("detail/$name")
+            }
+        }
+
+        composable(
+            "detail/{name}",
+            arguments = listOf(navArgument("name") { type = NavType.StringType })
+        ) { backEntry ->
+            val name = backEntry.arguments?.getString("name") ?: ""
+            DetailScreen(name) {
+                navController.navigateUp()
+            }
         }
     }
 }
