@@ -1,55 +1,51 @@
-import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class Cliente {
-    private static final String IP_SERVIDOR = "localhost";
-    private static final int PUERTO = 12346;
 
     public static void main(String[] args) {
-     
-        try (
-            //1- Intentar establecer conexion con el servidor
-            Socket socket = new Socket(IP_SERVIDOR,PUERTO);
 
-            //2- Obtener los streams de comunicacion
-            //Para enviar datos al servidor
-            PrintWriter salida = new PrintWriter(socket.getOutputStream(), true);
-            
-            //Para leer la resppuesta del servidor
-            BufferedReader entrada = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            
-            //Para leer la entrada del usuario por consola
-            Scanner scanner = new Scanner(System.in);
-        ){
+        final String IP_SERVIDOR = "localhost";
+        final int PUERTO = 12346;
+        DataInputStream in;
+        DataOutputStream out;
+
+        try {
+            Socket sc = new Socket(IP_SERVIDOR, PUERTO);
             System.out.println("Se ha conectado al servidor en " + ": " + PUERTO);
-            String mensajeUsuario;
-            String respuestaServidor;
 
-            //3- Logica de comunciacion (envio y recepcion)
-            do{
-                System.out.println("Ingrese el mensaje (o FIN para terminar): ");
-                mensajeUsuario = scanner.nextLine();
+            in = new DataInputStream(sc.getInputStream());
+            out = new DataOutputStream(sc.getOutputStream());
+            Scanner scanner = new Scanner(System.in);
 
-                //Enviar mensaje al servidor
-                salida.println(mensajeUsuario);
 
-                //Recibir la respuesta del servidor
-                respuestaServidor = entrada.readLine();
-                System.out.println("Servidor dice: " + respuestaServidor);
+            while (true) {
 
-            } while(!mensajeUsuario.equalsIgnoreCase("FIN"));
+                String mensaje = in.readUTF();
+                System.out.println(mensaje);
+
+                String accion = scanner.nextLine();
+                out.writeUTF(accion);
+
+                String ejecucion = in.readUTF();
+                System.out.println(ejecucion);
+
+                if (accion.equalsIgnoreCase("salir:0")) {
+                    break;
+                } 
+            }
+
+            sc.close();
 
         } catch (UnknownHostException e) {
             System.out.println("Host desconocido: " + IP_SERVIDOR);
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Error de I/O al conectarse: " + e.getMessage());
         }
-
 
     }
 }

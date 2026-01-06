@@ -1,61 +1,95 @@
-import java.io.BufferedReader;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Servidor {
-    
-    private static  final int PUERTO = 12346;
+
+    static double saldo = 1000;
+
     public static void main(String[] args) {
-        try (
-            ServerSocket serverSocket = new ServerSocket(PUERTO);
-        ){
+        Socket sc = null;
+        final int PUERTO = 12346;
+
+
+
+        try (ServerSocket servidor = new ServerSocket(PUERTO)){
             System.out.println("Servidor iniciado. Esperando conexion en el puerto: " + PUERTO + "...");
 
-            //1- Esperar y aceptar la conexion del cliente (Bloqueante)
-            //Se queda esperando hasta que un cliente se conecta
+            while (true) {
+                sc = servidor.accept();
+                System.out.println("Cliente conectado desde: " + sc.getInetAddress());
 
-            while(true){
-                Socket clienteSocket = serverSocket.accept();
-                System.out.println("Cliente conectado desde: " + clienteSocket.getInetAddress());
-                new Thread(()-> manejarCliente(clienteSocket)).start();
+                Thread hilo = new Thread(new clienteHandler(sc));
+
+                hilo.start();
             }
-            
-           
 
         } catch (IOException e) {
             System.out.println("Error en el servidor " + e.getMessage());
-
         }
     }
 
-    public static void manejarCliente(Socket clienteSocket){
+    static synchronized String accionDelBanco(String accion){
+        String[] array = accion.split(":");
+        String palabra = array[0];
+        String cantidad = array[1];
+
+        if (palabra.equalsIgnoreCase("Consultar")) {
+            return("OK:Saldo actual es: " + String.valueOf(saldo) + "$");
+        } else if (palabra.equalsIgnoreCase("Ingresar")){
+            saldo = saldo + Double.parseDouble(cantidad);
+            return("OK:Ingreso realizado. Nuevo saldo: " +String.valueOf(saldo) + "$");            
+        } else if(palabra.equalsIgnoreCase("Retirar")){
+            if (saldo >= Double.parseDouble(cantidad) ) {
+                saldo = saldo - Double.parseDouble(cantidad);
+                return("OK:Retirada con éxito " + String.valueOf(saldo) + "$");
+            } else {
+                return("ERROR:Saldo insuficiente");
+            }
+             
+        } else{
+            return("ADIOS:Gracias por su visita");
+        }
+    }   
+}
+
+
+class clienteHandler implements Runnable {
+    
+    Socket sc;
+
+    public clienteHandler(Socket sc) {
+        this.sc = sc;
+    }
+
+    @Override
+    public void run() {
         try {
-            BufferedReader entrada = new BufferedReader(new InputStreamReader(clienteSocket.getInputStream()));
-            PrintWriter salida = new PrintWriter(clienteSocket.getOutputStream(), true); //'true' para autoflush
+            DataInputStream in = new DataInputStream(sc.getInputStream());
+            DataOutputStream out = new DataOutputStream(sc.getOutputStream());
+            String accion;
 
-            String mensajeCliente;
+            while (true) {
+                out.writeUTF("----------\n*QUE DESEA HACER?*\nConsultar:0\nIngresar:X\nRetirar:X\nSalir:0");
 
-            while ((mensajeCliente = entrada.readLine()) != null) {
-                System.out.println("Mensaje recibido del cliente: " + mensajeCliente);
+                accion = in.readUTF();
+                System.out.println("La accion del cliente es: " + accion);
 
-                //Enviar una respuesta al cliente
-                String respuesta = "ECHO: " + mensajeCliente.toUpperCase();
-                salida.println(respuesta);
+                out.writeUTF(Servidor.accionDelBanco(accion));
 
-                if (mensajeCliente.equalsIgnoreCase("FIN")) {
+                if (accion.equalsIgnoreCase("salir:0")) {
                     break;
                 }
             }
 
-            //4- Cerrar sockests y streams
-            System.out.println("Cerrando conexion con el servidor");
-            clienteSocket.close();
+            sc.close();
+
         } catch (IOException e) {
-            System.out.println("Error con el cliente: "+e.getMessage());
+            System.out.println("Error en el servidor " + e.getMessage());
         }
-            
+
     }
+    
 }
