@@ -14,19 +14,9 @@ public class Cliente {
         DataInputStream in;
         DataOutputStream out;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
             
         try (Socket sc = new Socket(IP_SERVIDOR, PUERTO)){
             
-=======
-        try {
-            Socket sc = new Socket(IP_SERVIDOR, PUERTO);
->>>>>>> 002bf326b11aaf3b33a0884f18791e9b5dde211c
-=======
-        try {
-            Socket sc = new Socket(IP_SERVIDOR, PUERTO);
->>>>>>> 002bf326b11aaf3b33a0884f18791e9b5dde211c
             System.out.println("Se ha conectado al servidor en " + ": " + PUERTO);
 
             in = new DataInputStream(sc.getInputStream());
