@@ -25,8 +25,9 @@ public class Servidor {
                 
 
                 System.out.println("Cliente conectado desde: " + sc.getInetAddress());
-                    
 
+                Thread hilo = new Thread(new jugadores(sc));
+                hilo.start();
 
             }
             
