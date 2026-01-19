@@ -128,6 +128,66 @@ def ejercicio11():
     print("La edad media de los alumnos a los que les gusta el ",color,"es:", suma/total)
 
 
+def ejercicio12():
+    listaOrdnedad = []
+    for i in alumnos:
+        listaOrdnedad.append(i["edad"])
+    listaOrdnedad.sort()
+    pprint(listaOrdnedad)
+
+
+def ejercicio13():
+    alumnosOrdenados = sorted(alumnos, key=lambda alumnos: alumnos["edad"])
+    for alumno in alumnosOrdenados:
+        print(f"{alumno["nombre"]} tiene {alumno["edad"]} años")
+
+
+def ejercicio14():
+    color = "Rojo"
+    aux = []
+    for i in alumnos:
+        if i["color_fav"] == color:
+            aux.append(i)
+    print("Les gusta el color",color,"a:")
+    for alumno in aux:
+        print(alumno["nombre"])
+    
+
+def ejercicio15():
+    nombre = input("Nombre de usuario para cambiar su edad: ")
+    edad = int(input("Ingrese la edad: "))
+    for i in alumnos:
+        if i["nombre"] == nombre:
+            i["edad"]=edad
+            print("Edad cambiada")
+            print(i)
+            break
+    else:
+        print("Alumno no encontrado")
+
+def ejercicio16():
+    nombre = input("Ingresa un nombre: ")
+    for i in alumnos:
+        if i["nombre"] == nombre:
+            alumnos.remove(i)
+            print("Alumno eliminado")
+            pprint(alumnos)
+            break
+    else:
+        print("Alumno no encontrado")
+
+
+def ejercicio17():
+    resumen = {}
+    total = len(alumnos)
+    maximo = max(alumnos, key = lambda alumnos: alumnos["edad"])
+    minimo = min(alumnos, key = lambda alumnos:alumnos["edad"])
+    
+    print(total)
+    print(maximo)
+    resumen = {
+        "totalAlumnos":total
+               }
 
 if __name__ == '__main__':
-    ejercicio11()
+    ejercicio17()
