@@ -25,6 +25,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.alenic.agendacontactos.ui.theme.AgendaContactosTheme
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.contentColorFor
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.ViewModelProvider
+import com.alenic.agendacontactos.repositories.ContactRepository
 
 
 class MainActivity : ComponentActivity() {
@@ -48,6 +52,12 @@ fun AgendaContactos(modifier: Modifier = Modifier) {
 
 @Composable
 fun OnListScreen(modifier: Modifier = Modifier){
+    val context = LocalContext.current
+    val repository = ContactRepository(AppDatabase.getDatabase(context.applicationContext).contactDao())
+
+
+//    val viewModel = ViewModelProvider(this, )
+
     val contacts = listOf("Juan Perez", "Pablo Perez", "Gabriel Cuesta")
     Column(
         modifier = modifier.fillMaxSize(),
