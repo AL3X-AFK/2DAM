@@ -1,4 +1,4 @@
-package com.alenic.agendacontactos.ui.theme
+package com.curso20252026.agendacontactos.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

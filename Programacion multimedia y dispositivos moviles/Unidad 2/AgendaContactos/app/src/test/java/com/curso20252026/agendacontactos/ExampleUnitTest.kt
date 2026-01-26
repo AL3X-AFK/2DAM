@@ -1,4 +1,4 @@
-package com.alenic.agendacontactos
+package com.curso20252026.agendacontactos
 
 import org.junit.Test
 
