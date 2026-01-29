@@ -6,8 +6,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.curso20252026.agendacontactos.dao.ContactDao
 import com.curso20252026.agendacontactos.data.ContactEntity
+import com.curso20252026.agendacontactos.data.TaskEntity
 
-@Database (entities = [ContactEntity::class], version = 1, exportSchema = false)
+@Database (entities = [ContactEntity::class, TaskEntity::class], version = 4, exportSchema = false)
 abstract class AppDatabase: RoomDatabase() {
 
     abstract fun contactDao(): ContactDao
@@ -22,7 +23,9 @@ abstract class AppDatabase: RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "contact_database"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 instance
             }

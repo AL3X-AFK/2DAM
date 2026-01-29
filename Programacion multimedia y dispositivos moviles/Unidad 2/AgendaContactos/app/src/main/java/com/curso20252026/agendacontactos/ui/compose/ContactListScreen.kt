@@ -38,14 +38,14 @@ fun ContactListScreen(
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.title_contact_list)) },
-                navigationIcon = {
-                    IconButton(onClick = onBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(R.string.back)
-                        )
-                    }
-                }
+//                navigationIcon = {
+//                    IconButton(onClick = onBack) {
+//                        Icon(
+//                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+//                            contentDescription = stringResource(R.string.back)
+//                        )
+//                    }
+//                }
             )
         },
         floatingActionButton = {
@@ -74,8 +74,8 @@ fun ContactListScreenPreview() {
     AgendaContactosTheme() {
         ContactListScreen(
             contacts = listOf(
-                Contact(1, "John Doe", "123-456-7890"),
-                Contact(2, "Jane Smith", "098-765-4321")
+                Contact(1, "John Doe", "123-456-7890", "Madrid"),
+                Contact(2, "Jane Smith", "098-765-4321", "Zaragoza")
             ),
             onAddContact = {},
             onBack = {},

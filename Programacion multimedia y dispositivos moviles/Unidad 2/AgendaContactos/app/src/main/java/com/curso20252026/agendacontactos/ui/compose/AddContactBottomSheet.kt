@@ -29,13 +29,15 @@ import com.curso20252026.agendacontactos.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddContactBottomSheet(
-    onConfirm: (String, String) -> Unit,
+    onConfirm: (String, String, String) -> Unit,
     onDismiss: () -> Unit,
     initialName: String = "",
-    initialPhone: String = ""
+    initialPhone: String = "",
+    initialAddress: String = ""
 ) {
     var name by rememberSaveable { mutableStateOf(initialName) }
     var phone by rememberSaveable { mutableStateOf(initialPhone) }
+    var address by rememberSaveable { mutableStateOf(initialAddress) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
 
     ModalBottomSheet(
@@ -70,6 +72,15 @@ fun AddContactBottomSheet(
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone)
             )
 
+            OutlinedTextField(
+                modifier = Modifier.fillMaxWidth(),
+                value = address,
+                onValueChange = { address = it },
+                label = { Text(stringResource(R.string.hint_contact_address)) },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Ascii)
+            )
+
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -81,7 +92,7 @@ fun AddContactBottomSheet(
                 }
 
                 Button(
-                    onClick = { onConfirm(name, phone) },
+                    onClick = { onConfirm(name, phone, address) },
                     modifier = Modifier.padding(start = 12.dp)
                 ) {
                     Text(text = stringResource(R.string.action_confirm))

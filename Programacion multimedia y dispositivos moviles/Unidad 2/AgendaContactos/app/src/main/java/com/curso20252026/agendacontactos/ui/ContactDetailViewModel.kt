@@ -25,10 +25,18 @@ class ContactDetailViewModel(
             null
         )
 
-    fun updateContact(name: String, phone: String) {
+    fun addTask(title: String) {
+        if (title.isBlank()) return
+        viewModelScope.launch {
+            // El ID del contacto ya lo tenemos en el ViewModel
+            repository.insertTask(contactId, title)
+        }
+    }
+
+    fun updateContact(name: String, phone: String, address: String) {
         val currentContact = contact.value ?: return
         viewModelScope.launch {
-            repository.updateContact(currentContact.copy(name = name, phone = phone))
+            repository.updateContact(currentContact.copy(name = name, phone = phone, address = address))
         }
     }
 
@@ -39,6 +47,20 @@ class ContactDetailViewModel(
             onDeleted()
         }
     }
+
+    fun toggleTask(taskId: Int, isDone: Boolean){
+        viewModelScope.launch{
+            repository.updateTaskStatus(taskId, isDone)
+        }
+    }
+
+    fun deleteTask(taskId: Int){
+        viewModelScope.launch {
+            repository.deleteTask(taskId)
+        }
+    }
+
+
 }
 
 class ContactDetailViewModelFactory(
