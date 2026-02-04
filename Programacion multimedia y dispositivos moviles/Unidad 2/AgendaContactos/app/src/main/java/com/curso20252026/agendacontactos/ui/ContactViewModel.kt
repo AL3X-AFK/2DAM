@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 
 class ContactViewModel(
     private val repository: ContactRepository
+    // 1. ELIMINAMOS el contactId de aquí, no se necesita para listar todos
 ): ViewModel() {
 
     val contacts = repository
@@ -22,6 +23,8 @@ class ContactViewModel(
             SharingStarted.WhileSubscribed(5_000),
             emptyList()
         )
+
+    // 2. ELIMINAMOS addTask de aquí (eso va en el DetailViewModel)
 
     fun addContact(contact: Contact) {
         viewModelScope.launch {
@@ -34,6 +37,7 @@ class ContactViewModelFactory(private val repository: ContactRepository) : ViewM
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ContactViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
+            // 3. Ahora esto ya no da error porque los parámetros coinciden
             return ContactViewModel(repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

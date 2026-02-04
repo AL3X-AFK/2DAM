@@ -80,8 +80,8 @@ class MainActivity : ComponentActivity() {
 
             if (showAddContactSheet) {
                 AddContactBottomSheet(
-                    onConfirm = { name, phone ->
-                        viewModel.addContact(Contact(id = 0, name = name, phone = phone))
+                    onConfirm = { name, phone, address ->
+                        viewModel.addContact(Contact(id = 0, name = name, phone = phone, address = address))
                         showAddContactSheet = false
                     },
                     onDismiss = { showAddContactSheet = false }

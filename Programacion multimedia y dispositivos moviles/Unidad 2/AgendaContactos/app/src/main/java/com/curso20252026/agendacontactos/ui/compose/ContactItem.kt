@@ -30,6 +30,10 @@ fun ContactItem(contact: Contact, onClick: () -> Unit) {
                 text = contact.phone,
                 style = MaterialTheme.typography.bodyMedium
             )
+            Text(
+                text = contact.address,
+                style = MaterialTheme.typography.bodyMedium
+            )
         }
     }
 }
