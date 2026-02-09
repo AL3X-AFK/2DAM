@@ -1,5 +1,3 @@
-package ev2.ut4.blockchain;
-
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.util.Date;

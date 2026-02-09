@@ -1,5 +1,3 @@
-package ev2.ut4.blockchain;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,6 +15,7 @@ public class Servidor {
     private static final double TEMP_LIMITE = 50.0;
 
     public static void main(String[] args) {
+
         // Bloque Génesis
         blockchain.add(new Block("Genesis Block", "0"));
 
@@ -26,7 +25,8 @@ public class Servidor {
             while (true) {
                 try (Socket clientSocket = serverSocket.accept(); BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream())); PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true)) {
 
-                    String data = in.readLine(); // Formato esperado: "TEMP:valor"
+                    String data = in.readLine(); // Formato esperado: "NOMBRE_SENSOR;TEMP:valor"
+                    System.out.println(data);
                     String sensorId = data.split(";")[0];
                     String dataTemp = data.split(";")[1];
                     double temp = Double.parseDouble(dataTemp.split(":")[1]);
@@ -53,6 +53,9 @@ public class Servidor {
                         // 3. Volver a la SQL para guardar la referencia del bloque (el sello final)
                         DatabaseService.vincularConBlockchain(idGenerado, nuevoBloque.hash);
 
+                        System.out.println("Bloque añadido. Hash: " + nuevoBloque.hash);
+                        out.println("OK:Registro guardado en Blockchain");
+
                         System.out.println("Sincronización completa: SQL (ID " + idGenerado + ") <-> Blockchain (Hash " + nuevoBloque.hash.substring(0, 8) + "...)");
                     }
 
@@ -63,13 +66,6 @@ public class Servidor {
                         break; // Cerramos el servidor
                     }
 
-                    // Si la temperatura es segura, añadimos a la Blockchain
-                    String prevHash = blockchain.get(blockchain.size() - 1).hash;
-                    Block newBlock = new Block("Temp: " + temp, prevHash);
-                    blockchain.add(newBlock);
-
-                    System.out.println("Bloque añadido. Hash: " + newBlock.hash);
-                    out.println("OK:Registro guardado en Blockchain");
                 }
             }
         } catch (IOException e) {

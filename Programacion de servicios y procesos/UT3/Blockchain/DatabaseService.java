@@ -1,5 +1,3 @@
-package ev2.ut4.blockchain;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,8 +9,8 @@ public class DatabaseService {
     private static final String IP = "192.168.20.118";
     private static final String DB = "sistema_monitoreo";
     private static final String URL = "jdbc:mysql://" + IP + ":3306/" + DB + "?useSSL=false&serverTimezone=UTC";
-    private static final String USER = "usuario_bd"; // Cambia por tu usuario
-    private static final String PASS = "tu_password"; // Cambia por tu contraseña
+    private static final String USER = "alex"; // Cambia por tu usuario
+    private static final String PASS = "1234"; // Cambia por tu contraseña
 
     public static Connection getConnection() throws Exception {
         return DriverManager.getConnection(URL, USER, PASS);
