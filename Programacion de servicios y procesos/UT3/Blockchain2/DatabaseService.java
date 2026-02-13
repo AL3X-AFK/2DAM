@@ -6,7 +6,7 @@ import java.sql.Statement;
 
 public class DatabaseService {
     // Configuración de la base de datos remota
-    private static final String IP = "192.168.20.118";
+    private static final String IP = "localhost";
     private static final String DB = "sistema_monitoreo";
     private static final String URL = "jdbc:mysql://" + IP + ":3306/" + DB + "?useSSL=false&serverTimezone=UTC";
     private static final String USER = "alex"; // Cambia por tu usuario
