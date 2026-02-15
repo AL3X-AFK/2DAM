@@ -155,8 +155,13 @@ public class Servidor {
     // ===============================
 
     public static boolean hayManipulacionEnDatosAntiguos() {
+        System.out.println("Verificando integridad...");
+        System.out.println("Registros en memoria: " + registrosIniciales.size());
+
 
         for (RegistroTemporal rt : registrosIniciales) {
+            System.out.println("Comprobando ID: " + rt.getId());
+
 
             RegistroTemporal actual =
                     DatabaseService.obtenerRegistroPorId(rt.getId());
