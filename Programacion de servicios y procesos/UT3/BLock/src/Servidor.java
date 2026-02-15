@@ -17,14 +17,14 @@ public class Servidor {
         // Cargar registros antiguos desde la BD
         registrosIniciales = DatabaseService.obtenerTodosLosRegistros();
 
-        System.out.println("Blockchain sincronizada. Bloques: " + registrosIniciales.size());
+        System.out.println("Sincronización de Blockchain completada. Total de bloques: " + registrosIniciales.size());
 
         // Bloque Génesis
         blockchain.add(new Block("Genesis Block", "0"));
 
         try (ServerSocket serverSocket = new ServerSocket(6000)) {
 
-            System.out.println("Servidor de Monitoreo listo en puerto 6000...");
+            System.out.println("Servidor activo y escuchando en el puerto 6000...");
 
             while (true) {
 
@@ -38,11 +38,11 @@ public class Servidor {
 
                         // 1 Verificar manipulación previa
                         if (hayManipulacionEnDatosAntiguos()) {
-                            out.println("ERROR: El sistema ha detectado una manipulación de datos previa.");
+                            out.println("ALERTA: Se detectó manipulación previa de datos.");
                             return;
                         }
 
-                        System.out.println(data);
+                        System.out.println("Datos recibidos: " + data);
 
                         String sensorId = data.split(";")[0];
                         String dataTemp = data.split(";")[1];
@@ -50,8 +50,8 @@ public class Servidor {
 
                         //2️ Validar integridad de la blockchain
                         if (!isChainValid()) {
-                            System.err.println("ERROR CRÍTICO: La base de datos Blockchain ha sido manipulada.");
-                            out.println("ERROR:Integridad de red comprometida.");
+                            System.err.println("ERROR GRAVE: Integridad de la Blockchain comprometida.");
+                            out.println("ERROR: Integridad de la red dañada.");
                             break;
                         }
 
@@ -76,13 +76,13 @@ public class Servidor {
 
                             // 4️ Verificar límite crítico
                             if (temp > TEMP_LIMITE) {
-                                System.err.println("CRÍTICO: Temperatura " + temp + "°C excede el límite.");
+                                System.err.println("ALERTA CRÍTICA: Temperatura " + temp + "°C supera el límite seguro.");
                                 out.println("SISTEMA_APAGADO");
-                                System.out.println("Simulando apagado de seguridad del servidor...");
+                                System.out.println("Ejecutando simulación de apagado por seguridad...");
                                 return;
                             }
 
-                            out.println("OK: Registro íntegro");
+                            out.println("OK: Registro almacenado correctamente");
                         }
                     }
                 }
@@ -108,12 +108,12 @@ public class Servidor {
             previousBlock = blockchain.get(i - 1);
 
             if (!currentBlock.hash.equals(currentBlock.calculateHash())) {
-                System.err.println("¡ALERTA! El hash del bloque " + i + " no coincide con sus datos.");
+                System.err.println("¡ADVERTENCIA! El hash del bloque " + i + " no coincide con los datos.");
                 return false;
             }
 
             if (!currentBlock.previousHash.equals(previousBlock.hash)) {
-                System.err.println("¡ALERTA! El bloque " + i + " no está bien enlazado con el bloque " + (i - 1));
+                System.err.println("¡ADVERTENCIA! Bloque " + i + " no está correctamente vinculado con el bloque anterior.");
                 return false;
             }
         }
@@ -155,12 +155,12 @@ public class Servidor {
     // ===============================
 
     public static boolean hayManipulacionEnDatosAntiguos() {
-        System.out.println("Verificando integridad...");
-        System.out.println("Registros en memoria: " + registrosIniciales.size());
+        System.out.println("Iniciando verificación de integridad...");
+        System.out.println("Cantidad de registros cargados en memoria: " + registrosIniciales.size());
 
 
         for (RegistroTemporal rt : registrosIniciales) {
-            System.out.println("Comprobando ID: " + rt.getId());
+            System.out.println("Verificando registro con ID: " + rt.getId());
 
 
             RegistroTemporal actual =
@@ -169,8 +169,8 @@ public class Servidor {
             if (actual == null) {
 
                 System.err.println("\n--- ALERTA DE SEGURIDAD ---\n");
-                System.err.println("El ID " + rt.getId() + " ha sido eliminado de la base de datos.\n");
-                System.err.println("Cliente desconectado por pérdida de integridad.");
+                System.err.println("El registro con ID " + rt.getId() + " ha sido eliminado de la base de datos.\n");
+                System.err.println("Se desconecta el cliente debido a pérdida de integridad.");
 
                 return true;
             }
@@ -183,18 +183,18 @@ public class Servidor {
 
             if (!hashActual.equals(rt.getHashGuardado())) {
 
-                System.err.println("\n--- ALERTA DE SEGURIDAD ---\n");
+                System.err.println("\n*** ALERTA DE SEGURIDAD ***\n");
 
-                System.err.println("El ID " + rt.getId()
+                System.err.println("El registro con ID " + rt.getId()
                         + " ha sido modificado en la base de datos.\n");
 
-                System.err.println("Blockchain esperaba: "
+                System.err.println("Hash esperado por la Blockchain: "
                         + rt.getHashGuardado());
 
-                System.err.println("SQL tiene ahora: "
+                System.err.println("Hash actual en SQL: "
                         + hashActual + "\n");
 
-                System.err.println("Cliente desconectado por pérdida de integridad.");
+                System.err.println("Se desconecta el cliente por pérdida de integridad.");
 
                 return true;
             }
