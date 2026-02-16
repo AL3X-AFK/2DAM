@@ -19,23 +19,23 @@ public class Cliente {
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true); // auto-flush
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))
         ) {
-            System.out.println("Conectado al servidor en " + remoteIP + ":" + PORT);
+            System.out.println("Conexión establecida con el servidor " + remoteIP + ":" + PORT);
 
-             while (true) {
-                System.out.println("Ingrese temperatura actual:");
+            while (true) {
+                System.out.print("Por favor, ingresa la temperatura actual: ");
                 double temp = sc.nextDouble();
                 out.println(SENSOR_ID + ";" + "TEMP:" + temp);
 
                 String respuesta = in.readLine();
                 if (respuesta.equals("SISTEMA_APAGADO")) {
-                    System.out.println("El servidor ha ordenado el apagado del equipo");
+                    System.out.println("El servidor ha solicitado apagar el equipo.");
                     break;
                 } else {
-                    System.out.println("RESPUESTA:" + respuesta);
+                    System.out.println("Respuesta del servidor: " + respuesta);
                 }
             }
-                } catch (IOException e) {
-                    System.out.println("Por favor, ingresa un número válido o 'SALIR'.");
-                }
+        } catch (IOException e) {
+            System.out.println("Error de comunicación. Asegúrate de ingresar un número válido.");
+        }
     }
 }

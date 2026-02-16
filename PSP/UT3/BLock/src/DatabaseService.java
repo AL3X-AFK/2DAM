@@ -126,13 +126,9 @@ public class DatabaseService {
                 String sensorId = rs.getString("sensor_id");
                 double temp = rs.getDouble("valor_temp");
 
-                String hash = Servidor.generarDataHash(
-                        sensorId,
-                        temp, 
-                        String.valueOf(id)
-                );
+                String hashRecalculado = Servidor.generarDataHash(sensorId, temp, String.valueOf(id));
+                lista.add(new RegistroTemporal(id, sensorId, temp, hashRecalculado));
 
-                lista.add(new RegistroTemporal(id, sensorId, temp, hash));
             }
 
         } catch (Exception e) {
